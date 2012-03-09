@@ -89,9 +89,9 @@ class SWEET_PERSIST_DECLSPEC BinaryReader : public Reader<BinaryReader>
         void value( const char* name, unsigned int& value );
         void value( const char* name, long& value );
         void value( const char* name, unsigned long& value );
-        /*
+#if defined(BUILD_PLATFORM_MSVC)
         void value( const char* name, std::time_t& value );
-        */
+#endif
         void value( const char* name, float& value );
         void value( const char* name, double& value );
         void value( const char* name, wchar_t* value, size_t max );

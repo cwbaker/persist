@@ -76,9 +76,9 @@ class SWEET_PERSIST_DECLSPEC TextWriter : public Writer<TextWriter>
         void value( const char* name, unsigned int& value );
         void value( const char* name, long& value );
         void value( const char* name, unsigned long& value );
-        /*
+#if defined(BUILD_PLATFORM_MSVC)
         void value( const char* name, std::time_t& value );
-        */
+#endif
         void value( const char* name, float& value );
         void value( const char* name, double& value );
         void value( const char* name, char* value, size_t max );

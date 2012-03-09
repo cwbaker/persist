@@ -237,11 +237,11 @@ void Resolver::value( const char* name, unsigned long& value )
 {
 }
 
-/*
+#if defined(BUILD_PLATFORM_MSVC)
 void Resolver::value( const char* name, std::time_t& value )
 {
 }
-*/
+#endif
 
 void Resolver::value( const char* name, float& value )
 {

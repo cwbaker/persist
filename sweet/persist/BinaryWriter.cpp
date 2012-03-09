@@ -123,13 +123,13 @@ void BinaryWriter::value( const char* name, unsigned long& value )
     m_ostream->write( reinterpret_cast<const char*>(&value), sizeof(value) );
 }
 
-/*
+#if defined(BUILD_PLATFORM_MSVC)
 void BinaryWriter::value( const char* name, time_t& value )
 {
     SWEET_ASSERT( m_ostream );
     m_ostream->write( reinterpret_cast<const char*>(&value), sizeof(value) );
 }
-*/
+#endif
 
 void BinaryWriter::value( const char* name, float& value )
 {

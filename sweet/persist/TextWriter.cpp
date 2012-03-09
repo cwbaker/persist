@@ -146,13 +146,13 @@ void TextWriter::value( const char* name, unsigned long& value )
     get_current_element()->add_attribute( Attribute(name, static_cast<unsigned int>(value)) );
 }
 
-/*
+#if defined(BUILD_PLATFORM_MSVC)
 void TextWriter::value( const char* name, time_t& value )
 {
     SWEET_ASSERT( name );
     get_current_element()->add_attribute( Attribute(name, static_cast<unsigned int>(value)) );
 }
-*/
+#endif
 
 void TextWriter::value( const char* name, float& value )
 {

@@ -1,6 +1,6 @@
 //
 // BinaryWriter.hpp
-// Copyright (c) 2006 - 2011 Charles Baker.  All rights reserved.
+// Copyright (c) 2006 - 2012 Charles Baker.  All rights reserved.
 //
 
 #ifndef SWEET_PERSIST_BINARYWRITER_HPP_INCLUDED
@@ -10,6 +10,7 @@
 #include "Writer.hpp"
 #include "types.hpp"
 #include <stack>
+#include <ctime>
 
 namespace sweet
 {
@@ -65,9 +66,9 @@ class SWEET_PERSIST_DECLSPEC BinaryWriter : public Writer<BinaryWriter>
         void value( const char* name, unsigned int& value );
         void value( const char* name, long& value );
         void value( const char* name, unsigned long& value );
-        /*
+#if defined(BUILD_PLATFORM_MSVC)
         void value( const char* name, std::time_t& value );
-        */
+#endif
         void value( const char* name, float& value );
         void value( const char* name, double& value );
         void value( const char* name, wchar_t* value, size_t max );

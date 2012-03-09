@@ -307,7 +307,7 @@ void TextReader::value( const char* name, unsigned long& value )
     }
 }
 
-/*
+#if defined(BUILD_PLATFORM_MSVC)
 void TextReader::value( const char* name, std::time_t& value )
 {
     Attribute* attribute = get_current_element()->find_attribute( name );
@@ -316,7 +316,7 @@ void TextReader::value( const char* name, std::time_t& value )
         value = static_cast<std::time_t>( attribute->unsigned_integer() );
     }
 }
-*/
+#endif
 
 void TextReader::value( const char* name, float& value )
 {

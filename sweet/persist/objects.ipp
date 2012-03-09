@@ -16,18 +16,6 @@ namespace sweet
 namespace persist
 {
 
-/*
-template <class Type> Type creator<Type>::create()
-{
-    return Type();
-}
-
-template <class Type> void resolver<Type>::resolve( void* reference, void* raw_ptr, void* smart_ptr )
-{
-    SWEET_ASSERT( false );
-}
-*/
-
 template <class Type> struct creator
 {
     static Type create()
