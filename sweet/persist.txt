@@ -4,13 +4,13 @@
 :theme: sweet
 :pygments:
 
-= Sweet Persist =
+= Sweet Persist
 
-== Overview ==
+== Overview
 
 Sweet Persist is a C++ library that serializes data to and from streams in 
 XML, JSON, Lua, and binary formats.  It compiles with Microsoft Visual Studio 
-2008 (MSVC 9.0) and MinGW.
+2008 (MSVC 9.0), MinGW (GCC 4.6.2), and Xcode (LLVM-GCC 4.2.1).
 
 Features:
 
@@ -33,7 +33,7 @@ Anti features:
   - The library uses templates so has longer compile times and larger binaries.
   - Multiple inheritance is not supported.
 
-=== Boost Serialization vs Sweet Persist ===
+=== Boost Serialization vs Sweet Persist
 
 The Boost Serialization Library is written by Robert
 Ramey.  Documentation is available a 
@@ -70,7 +70,7 @@ and bit masks converted to text, you don't need relative paths in your archives,
 you don't want the responsibility of determining which objects to write by value and
 which to write out by reference.
 
-=== libs11n vs Sweet Persist ===
+=== libs11n vs Sweet Persist
 
 The libs11n Library is written by Stephan Beal.  Documentation is available at
 http://s11n.net/[http://s11n.net/].
@@ -85,21 +85,23 @@ On the other hand if you need to support wide characters, binary
 archives, or don't like dynamic libraries then you might prefer Boost Serialization 
 or Sweet Persist.
 
-== Installation ==
+== Installation
 
 Sweet Persist is built and installed by downloading the latest version from
 http://www.sweetsoftware.co.nz/, extracting the archive onto your computer, 
-and then running "`build`" from the top level directory.  This builds all 
-variants for the host platform into the library directory.
+and then running "`build.bat`" (on Windows) or "`sh ./build.sh`" (on MacOSX)
+from the top level directory.  This builds all variants and a Visual Studio 
+solution or Xcode project to browse through the source.
 
-You'll need to add the top level directory (e.g. "`c:\sweet\sweet_persist-2010.09.11`") 
-and the library directory (e.g. "`c:\sweet\sweet_persist-2010.09.11\lib`") to your
+You'll need to add the top level directory (e.g. "`c:\sweet\sweet_persist`")
+and the library directory (e.g. "`c:\sweet\sweet_persist\lib`") to your
 compiler's header and library search paths respectively.
 
 If you want Sweet Persist built to another location or with different variants
-and/or settings then you'll need to edit the settings in "`sweet/build.lua`".
+and/or settings then you'll need to edit the settings in `sweet/build.lua` and
+rebuild.
 
-== Usage ==
+== Usage
 
 Sweet Persist serializes arbitrary data to and from an iostream.  Typically 
 this is a file but can be a buffer in memory or any more complex combination 
@@ -162,7 +164,7 @@ The example program produces the following output:
 include::persist/persist_examples/persist_hello_world_example.xml[]
 ----
 
-=== Cyclic References ===
+=== Cyclic References
 
 Sweet Persist supports serialization of cyclic references by allowing objects 
 to be persisted by reference instead of by value.
@@ -201,7 +203,7 @@ The example program produces the following output:
 include::persist/persist_examples/persist_cyclic_references_example.xml[]
 ----
 
-=== Polymorphism ===
+=== Polymorphism
 
 Sweet Persist supports serializing polymorphic objects.  To do so polymorphic
 types must be declared with the reader or writer that is doing the 
@@ -233,7 +235,7 @@ The example program produces the following output:
 include::persist/persist_examples/persist_polymorphism_example.json[]
 ----
 
-=== Context ===
+=== Context
 
 Each archive is able to store void pointers to context that can be used
 by serialization code during reading or writing.  Typically the `type` 
@@ -246,7 +248,7 @@ void set_context( const rtti::Type& type, void* context );
 void* get_context( const rtti::Type& type ) const;
 ----
 
-=== Filters ===
+=== Filters
 
 Sweet Persist is able to provide conversion on serialized values with filters.  
 Filters are provided to convert bitmasks between integer and string values, 
@@ -283,7 +285,7 @@ The example program produces the following output:
 include::persist/persist_examples/persist_filters_example.json[]
 ----
 
-=== Links ===
+=== Links
 
 Path filters, non-intrusive serialization, and stored context can be combined
 to serialize objects as links to data stored in external files rather than
@@ -314,7 +316,7 @@ The example program generates the following output:
 include::persist/persist_examples/persist_links_example.json[]
 ----
 
-=== Standard Template Library and Boost Support ===
+=== Standard Template Library and Boost Support
 
 Additional headers are provided for serializing the standard template library
 containers and Boost library smart pointers.  The additional headers are given 
@@ -327,7 +329,7 @@ to be persisted.  If an additional header is left out then the compiler will
 generate many errors as it tries to match all of the overloaded save and load 
 function templates.
 
-=== Format and Version ===
+=== Format and Version
 
 Sweet Persist identifies serialized archives by format and version.  The 
 format of an archive is a string that must match the expected format when the
@@ -349,7 +351,7 @@ external script (XSLT, Javascript for JSON, or Lua for Lua) that converts
 between versions that is executed by the application to convert older versions
 into newer versions.
 
-=== Character Encoding ===
+=== Character Encoding
 
 Sweet Persist supports both wide and narrow characters.  When serializing text 
 archives strings are converted to UTF-8 encoding in an intermediate tree 
@@ -362,7 +364,7 @@ When saving and loading binary archives there is no intermediate represention
 and thus no conversion of character data.  Strings are saved and loaded 
 directly without conversion.
 
-=== Error Handling And Exception Safety ===
+=== Error Handling And Exception Safety
 
 Sweet Persist provides strong exception safety when saving objects.  The 
 objects that are being saved are never changed even if an exception is 
