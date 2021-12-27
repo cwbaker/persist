@@ -9,13 +9,6 @@
 #include <list>
 #include <ctime>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -45,13 +38,12 @@ class TextReader : public Reader<TextReader>
         }
     };
 
-    error::ErrorPolicy& error_policy_;
     Element m_element; ///< The root Element of the tree of Elements and Attributes.
     std::stack<State> m_state; ///< The state.
     Resolver m_resolver; ///< Resolves all references once the archive has been read in to memory.
 
 public:
-    TextReader( error::ErrorPolicy& error_policy );
+    TextReader();
     TextReader( const TextReader& reader );
 
     void track( void* raw_ptr, void* smart_ptr );
@@ -61,7 +53,6 @@ public:
     const std::string& get_type() const;
     const void* get_address() const;
 
-    error::ErrorPolicy& error_policy() const;
     Mode get_mode() const;
     Element* get_element();
     Element* get_current_element();

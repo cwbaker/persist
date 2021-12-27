@@ -13,9 +13,8 @@ using namespace persist;
 /**
 // Constructor.
 */
-JsonReader::JsonReader( error::ErrorPolicy& error_policy )
-: TextReader( error_policy ),
-  error_policy_( error_policy )
+JsonReader::JsonReader()
+: TextReader()
 {
 }
 
@@ -27,8 +26,7 @@ JsonReader::JsonReader( error::ErrorPolicy& error_policy )
 //  The TextReader to copy.
 */
 JsonReader::JsonReader( const TextReader& reader )
-: TextReader( reader ),
-  error_policy_( reader.error_policy() )
+: TextReader( reader )
 {
 }
 
@@ -45,7 +43,7 @@ JsonReader::JsonReader( const TextReader& reader )
 */
 void JsonReader::parse( const char* filename, Element* element )
 {
-    JsonParser parser( filename, element, &error_policy_ );
+    JsonParser parser( filename, element );
 }
 
 
@@ -61,7 +59,7 @@ void JsonReader::parse( const char* filename, Element* element )
 */
 void JsonReader::parse( const wchar_t* filename, Element* element )
 {
-    JsonParser parser( filename, element, &error_policy_ );
+    JsonParser parser( filename, element );
 }
 
 
@@ -77,5 +75,5 @@ void JsonReader::parse( const wchar_t* filename, Element* element )
 */
 void JsonReader::parse( std::istream& stream, Element* element )
 {
-    JsonParser parser( stream, element, &error_policy_ );
+    JsonParser parser( stream, element );
 }

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <sweet/persist/EnumFilter.hpp>
-#include <sweet/persist/MaskFilter.hpp>
-#include <sweet/persist/types.hpp>
+#include <persist/EnumFilter.hpp>
+#include <persist/MaskFilter.hpp>
+#include <persist/types.hpp>
 
 namespace persist
 {

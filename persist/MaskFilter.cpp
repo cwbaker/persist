@@ -15,7 +15,7 @@ MaskFilter::MaskFilter( const MaskFilter::Conversion* conversions )
     assert( m_conversions );
 }
 
-int MaskFilter::to_memory( const std::string& value, error::ErrorPolicy& /*error_policy*/ ) const
+int MaskFilter::to_memory( const std::string& value ) const
 {
     const char* SEPARATORS = "| ";
 

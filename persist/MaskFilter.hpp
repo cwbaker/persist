@@ -2,13 +2,6 @@
 
 #include <string>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -41,7 +34,7 @@ private:
 
 public:
     MaskFilter( const Conversion* conversions );
-    int to_memory( const std::string& value, error::ErrorPolicy& error_policy ) const;
+    int to_memory( const std::string& value ) const;
     const std::string& to_archive( int value ) const;
 
 private:

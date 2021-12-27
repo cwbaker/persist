@@ -5,11 +5,11 @@
 
 #include "LuaParser.hpp"
 #include "Element.hpp"
+#include "PersistError.hpp"
 #include "functions.hpp"
 #include <lalr/Parser.ipp>
 #include <lalr/PositionIterator.hpp>
 #include <lalr/ErrorPolicy.hpp>
-#include <error/ErrorPolicy.hpp>
 #include <persist/assert.hpp>
 #include <fstream>
 #include <functional>
@@ -29,15 +29,12 @@ struct LuaParserContext : public lalr::ErrorPolicy
 {
     const char* filename_;
     std::list<Element*> elements_;
-    error::ErrorPolicy* error_policy_;
     
-    LuaParserContext( const char* filename, Element* element, error::ErrorPolicy* error_policy )
+    LuaParserContext( const char* filename, Element* element )
     : filename_( filename )
     , elements_()
-    , error_policy_( error_policy )
     {
         assert( filename_ );
-        assert( error_policy_ );
         assert( element );
         elements_.push_back( element );
     }
@@ -71,7 +68,7 @@ struct LuaParserContext : public lalr::ErrorPolicy
         char message [1024];
         vsnprintf( message, sizeof(message), format, args );
         message[sizeof(message) - 1] = 0;
-        error_policy_->error( true, "%s(%d) : %s", filename_, line, message );
+        throw PersistError( "%s(%d) : %s", filename_, line, message );
     }
 };
 
@@ -237,46 +234,47 @@ static void* string_attribute( LuaParserContext* context, const ParserNode<char>
     return nullptr;
 }
 
-LuaParser::LuaParser( const char* filename, Element* element, error::ErrorPolicy* error_policy )
+LuaParser::LuaParser( const char* filename, Element* element )
 {
     assert( filename );
-    assert( error_policy );
 
     std::ifstream stream( filename, std::ios::binary );
-    error_policy->error( !stream.is_open(), "Opening '%s' failed", filename );
+    if ( !stream.is_open() )
+    {
+        throw PersistError( "Opening '%s' failed", filename );
+    }
     if ( stream.is_open() )
     {
-        parse( filename, stream, element, error_policy );
+        parse( filename, stream, element );
     }    
 }
 
-LuaParser::LuaParser( const wchar_t* filename, Element* element, error::ErrorPolicy* error_policy )
+LuaParser::LuaParser( const wchar_t* filename, Element* element )
 {
     assert( filename );
-    assert( error_policy );
     
     std::ifstream stream( narrow(filename).c_str(), std::ios::binary );
-    error_policy->error( !stream.is_open(), "Opening '%s' failed", narrow(filename).c_str() );
+    if ( !stream.is_open() )
+    {
+        throw PersistError( "Opening '%s' failed", narrow(filename).c_str() );
+    }
     if ( stream.is_open() )
     {
-        parse( narrow(filename).c_str(), stream, element, error_policy );
+        parse( narrow(filename).c_str(), stream, element );
     }    
 }
 
-LuaParser::LuaParser( std::istream& stream, Element* element, error::ErrorPolicy* error_policy )
+LuaParser::LuaParser( std::istream& stream, Element* element )
 {
-    assert( error_policy );
-    parse( "", stream, element, error_policy );
+    parse( "", stream, element );
 }
 
-void LuaParser::parse( const char* filename, std::istream& stream, Element* element, error::ErrorPolicy* error_policy )
+void LuaParser::parse( const char* filename, std::istream& stream, Element* element )
 {
-    assert( error_policy );
-    
     stream.unsetf( std::iostream::skipws );
     stream.exceptions( std::iostream::badbit );
 
-    LuaParserContext context( filename, element, error_policy );
+    LuaParserContext context( filename, element );
     Parser<PositionIterator<istream_iterator<unsigned char>>, void*, char> parser( lua_parser_state_machine, &context );
     parser.lexer_action_handlers()
         ( "string", &string_ )
@@ -292,5 +290,8 @@ void LuaParser::parse( const char* filename, std::istream& stream, Element* elem
     ;
     
     parser.parse( PositionIterator<istream_iterator<unsigned char> >(istream_iterator<unsigned char>(stream), istream_iterator<unsigned char>()), PositionIterator<istream_iterator<unsigned char> >() );
-    error_policy->error( !parser.accepted() || !parser.full(), "Parsing '%s' failed", filename );
+    if ( !parser.accepted() || !parser.full() )
+    {
+        throw PersistError( "Parsing '%s' failed", filename );
+    }
 }

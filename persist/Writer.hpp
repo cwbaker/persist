@@ -4,13 +4,6 @@
 #include "WriterType.hpp"
 #include <set>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 

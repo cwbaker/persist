@@ -20,7 +20,6 @@ TextWriter::TextWriter()
 
 TextWriter::TextWriter( const TextWriter& writer )
 : Writer<TextWriter>( writer )
-, error_policy_( writer.error_policy_ )
 , m_element()
 , m_state()
 {

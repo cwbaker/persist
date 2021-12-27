@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Resolver.hpp"
-#include <error/ErrorPolicy.hpp>
+#include "PersistError.hpp"
 #include <persist/assert.hpp>
 
 namespace persist
 {
 
 template <class Type>
-void Resolver::process( int version, Type& object, error::ErrorPolicy& error_policy )
+void Resolver::process( int version, Type& object )
 {
     assert( m_state.empty() );
     m_state.push( State(MODE_VALUE, &m_object) );
@@ -16,11 +16,14 @@ void Resolver::process( int version, Type& object, error::ErrorPolicy& error_pol
     resolve( *this, MODE_VALUE, object );
     m_state.pop();
     assert( m_state.empty() );
-    error_policy.error( !m_references.empty(), "Not all references were resolved" );
+    if ( !m_references.empty() )
+    {
+        throw PersistError( "Unresolved references" );
+    }
 }
 
 template <class Type> 
-void Resolver::process( int version, const char* /*child_name*/, Type& container, error::ErrorPolicy& error_policy )
+void Resolver::process( int version, const char* /*child_name*/, Type& container )
 {
     assert( m_state.empty() );
     m_state.push( State(MODE_VALUE, &m_object) );
@@ -28,11 +31,14 @@ void Resolver::process( int version, const char* /*child_name*/, Type& container
     resolve( *this, MODE_VALUE, container );
     m_state.pop();
     assert( m_state.empty() );
-    error_policy.error( !m_references.empty(), "Not all references were resolved" );
+    if ( !m_references.empty() )
+    {
+        throw PersistError( "Unresolved references" );
+    }
 }
 
 template <class Type> 
-void Resolver::process( int version, const char* /*child_name*/, Type& values, size_t length, error::ErrorPolicy& error_policy )
+void Resolver::process( int version, const char* /*child_name*/, Type& values, size_t length )
 {
     assert( m_state.empty() );
     m_state.push( State(MODE_VALUE, &m_object) );
@@ -40,7 +46,10 @@ void Resolver::process( int version, const char* /*child_name*/, Type& values, s
     resolve( *this, MODE_VALUE, values, length );
     m_state.pop();
     assert( m_state.empty() );
-    error_policy.error( !m_references.empty(), "Not all references were resolved" );
+    if ( !m_references.empty() )
+    {
+        throw PersistError( "Unresolved references" );
+    }
 }
 
 template <class Filter> 

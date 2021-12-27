@@ -2,13 +2,6 @@
 
 #include <iostream>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -22,12 +15,12 @@ class Element;
 class XmlParser
 {
 public:
-    XmlParser( const char* filename, Element* element, error::ErrorPolicy* error_policy );
-    XmlParser( const wchar_t* filename, Element* element, error::ErrorPolicy* error_policy );
-    XmlParser( std::istream& stream, Element* element, error::ErrorPolicy* error_policy );
+    XmlParser( const char* filename, Element* element );
+    XmlParser( const wchar_t* filename, Element* element );
+    XmlParser( std::istream& stream, Element* element );
 
 private:    
-    void parse( const char* filename, std::istream& stream, Element* element, error::ErrorPolicy* error_policy );
+    void parse( const char* filename, std::istream& stream, Element* element );
 };
 
 }

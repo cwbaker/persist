@@ -3,13 +3,6 @@
 #include "TextWriter.hpp"
 #include <iostream>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -20,10 +13,8 @@ class JsonReader;
 */
 class JsonWriter : public TextWriter
 {
-    error::ErrorPolicy& error_policy_;
-
 public:
-    JsonWriter( error::ErrorPolicy& error_policy );
+    JsonWriter();
     JsonWriter( const TextWriter& writer );
 
     template <class Char, class Type> void write( const Char* filename, const char* name, Type& value );

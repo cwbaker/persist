@@ -11,15 +11,13 @@
 
 using namespace persist;
 
-XmlWriter::XmlWriter( error::ErrorPolicy& error_policy )
-: TextWriter( error_policy )
-, error_policy_( error_policy )
+XmlWriter::XmlWriter()
+: TextWriter()
 {
 }
 
 XmlWriter::XmlWriter( const TextWriter& writer )
 : TextWriter( writer )
-, error_policy_( writer.error_policy() )
 {
 }
 

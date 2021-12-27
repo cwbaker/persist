@@ -3,13 +3,6 @@
 #include "TextWriter.hpp"
 #include <iostream>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -20,10 +13,8 @@ class Element;
 */
 class LuaWriter : public TextWriter
 {
-    error::ErrorPolicy& error_policy_;
-    
 public:
-    LuaWriter( error::ErrorPolicy& error_policy );
+    LuaWriter();
     LuaWriter( const TextWriter& writer );
 
     template <class Char, class Type> void write( const Char* filename, const char* name, Type& value );

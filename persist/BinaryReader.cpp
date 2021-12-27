@@ -11,19 +11,17 @@
 
 using namespace persist;
 
-BinaryReader::BinaryReader( error::ErrorPolicy& error_policy )
-: Reader<BinaryReader>( error_policy )
-, error_policy_( error_policy )
+BinaryReader::BinaryReader()
+: Reader<BinaryReader>()
 , m_state()
 , m_istream( nullptr )
 , m_type()
-, m_resolver( error_policy )
+, m_resolver()
 {
 }
 
 BinaryReader::BinaryReader( const BinaryReader& reader )
 : Reader<BinaryReader>( reader )
-, error_policy_( reader.error_policy_ )
 , m_state()
 , m_istream( nullptr )
 , m_type()

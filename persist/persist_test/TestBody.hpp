@@ -1,7 +1,6 @@
 #ifndef SWEET_PERSIST_TESTBODY_HPP_INCLUDED
 #define SWEET_PERSIST_TESTBODY_HPP_INCLUDED
 
-#include <error/ErrorPolicy.hpp>
 #include <persist/assert.hpp>
 #include <filesystem>
 
@@ -18,11 +17,10 @@ struct TestBody
     , read_model_()
     {
         assert( filename );        
-        error::ErrorPolicy error_policy;
-        Writer writer( error_policy );
+        Writer writer;
         writer.write( filename, "model", written_model_ );
         read_model_.clear();
-        Reader reader( error_policy );
+        Reader reader;
         reader.read( filename, "model", read_model_ );
     }
 

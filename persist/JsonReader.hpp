@@ -3,13 +3,6 @@
 #include "TextReader.hpp"
 #include <iostream>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -18,10 +11,8 @@ namespace persist
 */
 class JsonReader : public TextReader
 {
-    error::ErrorPolicy& error_policy_;
-
 public:
-    JsonReader( error::ErrorPolicy& error_policy );
+    JsonReader();
     JsonReader( const TextReader& reader );
 
     template <class Char, class Type> void read( const Char* filename, const char* name, Type& object );
