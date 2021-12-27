@@ -1,0 +1,30 @@
+name: Build
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Install Forge
+      run: |
+        OS=$(echo ${RUNNER_OS} |tr '[:upper:]' '[:lower:]')
+        curl -L https://github.com/cwbaker/forge/releases/download/v0.7.12/forge-${OS}-v0.7.12.tar.gz >forge.tar.gz
+        tar -xvf forge.tar.gz
+      shell: bash
+    - name: Build
+      run: |
+        forge/bin/forge variant=release
+      shell: bash
+    - name: Test
+      run: |
+        release/bin/persist_test
+      shell: bash
