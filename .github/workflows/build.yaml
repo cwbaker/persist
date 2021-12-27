@@ -13,7 +13,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        token: ${{ secrets.ACCESS_TOKEN }}
         submodules: true
     - name: Install Forge
       run: |
