@@ -56,7 +56,7 @@ SUITE( TestBadArchives )
             xml_reader.read( "TestXmlBadArchive1.xml", "model", read_model );
             CHECK( false );
         }
-        catch ( const PersistError& error )
+        catch ( const PersistError& /*error*/ )
         {
             CHECK( true );
         }
@@ -76,7 +76,7 @@ SUITE( TestBadArchives )
             xml_reader.read( "TestXmlBadArchive2.xml", "model", read_model );            
             CHECK( false );
         }
-        catch ( const PersistError& error )
+        catch ( const PersistError& /*error*/ )
         {
             CHECK( true );
         }
@@ -96,7 +96,7 @@ SUITE( TestBadArchives )
             xml_reader.read( "TestXmlBadArchive3.xml", "model", read_model );
             CHECK( false );
         }
-        catch ( const PersistError& error )
+        catch ( const PersistError& /*error*/ )
         {
             CHECK( true );
         }
@@ -116,7 +116,7 @@ SUITE( TestBadArchives )
             xml_reader.read( "TestXmlBadArchive4.xml", "model", read_model );
             CHECK( false );
         }
-        catch ( const PersistError& error )
+        catch ( const PersistError& /*error*/ )
         {
             CHECK( true );
         }
