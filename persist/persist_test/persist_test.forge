@@ -1,35 +1,44 @@
 
 for _, cc in toolsets( '^cc_linux.*', '^cc_macos_.*', '^cc_windows_.*' ) do
-    cc:StaticLibrary '${lib}/persist_test_${platform}_${architecture}' {
-        whole_archive = true;
+    if cc.settings.unit_tests_enabled then
+        cc:StaticLibrary '${lib}/persist_test_${platform}_${architecture}' {
+            whole_archive = true;
 
-        '${lib}/persist_${platform}_${architecture}';
-        '${lib}/fs_${platform}_${architecture}';
-        '${lib}/error_${platform}_${architecture}';
-        '${lib}/assert_${platform}_${architecture}';
-        '${lib}/lalr_${platform}_${architecture}';
-        '${lib}/UnitTest++_${platform}_${architecture}';
+            '${lib}/persist_${platform}_${architecture}';
+            '${lib}/UnitTest++_${platform}_${architecture}';
 
-        cc:Cxx '${obj}/%1' {
-            'Item.cpp';
-            'TestArrays.cpp';
-            'TestBadArchives.cpp';
-            'TestBasicTypes.cpp';
-            'TestBasicTypesInContainers.cpp';
-            'TestContainersInContainers.cpp';
-            'TestLinks.cpp';
-            'TestList.cpp';
-            'TestMap.cpp';
-            'TestMissingElements.cpp';
-            'TestMultimap.cpp';
-            'TestMultiset.cpp';
-            'TestOwningPointers.cpp';
-            'TestPathFilter.cpp';
-            'TestPolymorphicTypes.cpp';
-            'TestReordering.cpp';
-            'TestSet.cpp';
-            'TestVector.cpp';
-            'TestVersions.cpp';
+            cc:Cxx '${obj}/%1' {
+                'Item.cpp';
+                'TestArrays.cpp';
+                'TestBadArchives.cpp';
+                'TestBasicTypes.cpp';
+                'TestBasicTypesInContainers.cpp';
+                'TestContainersInContainers.cpp';
+                'TestLinks.cpp';
+                'TestList.cpp';
+                'TestMap.cpp';
+                'TestMissingElements.cpp';
+                'TestMultimap.cpp';
+                'TestMultiset.cpp';
+                'TestOwningPointers.cpp';
+                'TestPathFilter.cpp';
+                'TestPolymorphicTypes.cpp';
+                'TestReordering.cpp';
+                'TestSet.cpp';
+                'TestVector.cpp';
+                'TestVersions.cpp';
+            };
         };
-    };
+
+        if cc.settings.persist_test_enabled then
+            cc:all {
+                cc:Executable '${bin}/persist_test' {
+                    '${lib}/persist_test_${platform}_${architecture}';
+                    cc:Cxx '${obj}/%1' {
+                        'persist_test.cpp';
+                    };
+                };
+            };
+        end
+    end
 end
