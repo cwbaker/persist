@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ObjectGuard.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -24,14 +24,14 @@ template <> struct resolver<const void*>
 
 template <class Archive> void save( Archive& archive, int mode, const char* name, const void*& object )
 {
-    SWEET_ASSERT( mode == MODE_REFERENCE );
+    assert( mode == MODE_REFERENCE );
     ObjectGuard<Archive> guard( archive, name, object, mode, object != 0 ? 1 : 0 );
 }
 
 template <class Archive> void load( Archive& archive, int mode, const char* name, const void*& object )
 {
-    SWEET_ASSERT( !object );
-    SWEET_ASSERT( mode == MODE_REFERENCE );
+    assert( !object );
+    assert( mode == MODE_REFERENCE );
 
     ObjectGuard<Archive> guard( archive, name, 0, mode );
     switch ( archive.get_mode() )
@@ -44,14 +44,14 @@ template <class Archive> void load( Archive& archive, int mode, const char* name
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }
 
 template <class Archive> void resolve( Archive& archive, int mode, const void*& object )
 {
-    SWEET_ASSERT( mode == MODE_REFERENCE );
+    assert( mode == MODE_REFERENCE );
 
     ObjectGuard<Archive> guard( archive, nullptr, object, mode );
     switch ( mode )
@@ -64,7 +64,7 @@ template <class Archive> void resolve( Archive& archive, int mode, const void*& 
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }

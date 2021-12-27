@@ -2,7 +2,7 @@
 #define SWEET_PERSIST_TESTBODY_HPP_INCLUDED
 
 #include <error/ErrorPolicy.hpp>
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <filesystem>
 
 template <class Writer, class Reader, class Model>
@@ -17,7 +17,7 @@ struct TestBody
     , written_model_()
     , read_model_()
     {
-        SWEET_ASSERT( filename );        
+        assert( filename );        
         error::ErrorPolicy error_policy;
         Writer writer( error_policy );
         writer.write( filename, "model", written_model_ );

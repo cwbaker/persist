@@ -10,7 +10,7 @@
 #include <lalr/PositionIterator.hpp>
 #include <lalr/ErrorPolicy.hpp>
 #include <error/ErrorPolicy.hpp>
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <fstream>
 #include <functional>
 
@@ -35,34 +35,34 @@ struct XmlParserContext : public lalr::ErrorPolicy
     , elements_()
     , error_policy_( error_policy )
     {
-        SWEET_ASSERT( filename_ );
-        SWEET_ASSERT( element );
-        SWEET_ASSERT( error_policy_ );
+        assert( filename_ );
+        assert( element );
+        assert( error_policy_ );
         elements_.push_back( element );
     }
     
     void begin_element( const std::string& name )
     {
-        SWEET_ASSERT( !name.empty() );
-        SWEET_ASSERT( !elements_.empty() );
-        SWEET_ASSERT( elements_.back() );
+        assert( !name.empty() );
+        assert( !elements_.empty() );
+        assert( elements_.back() );
         
         Element* element = elements_.back()->add_element( Element(name, nullptr) );
-        SWEET_ASSERT( element );
+        assert( element );
         elements_.push_back( element );
     }
     
     void end_element()
     {
-        SWEET_ASSERT( !elements_.empty() );    
+        assert( !elements_.empty() );    
         elements_.pop_back();
     }   
 
     void attribute( const std::string& name, const std::string& value )
     {
-        SWEET_ASSERT( !name.empty() );
-        SWEET_ASSERT( !elements_.empty() );
-        SWEET_ASSERT( elements_.back() );
+        assert( !name.empty() );
+        assert( !elements_.empty() );
+        assert( elements_.back() );
         elements_.back()->add_attribute( Attribute(name, value) );
     }
     
@@ -77,14 +77,14 @@ struct XmlParserContext : public lalr::ErrorPolicy
 
 static void string_( PositionIterator<istream_iterator<unsigned char>> begin, PositionIterator<istream_iterator<unsigned char>> end, std::string* lexeme, const void** /*symbol*/, PositionIterator<istream_iterator<unsigned char>>* position, int* lines )
 {
-    SWEET_ASSERT( lexeme );
-    SWEET_ASSERT( lexeme->length() == 1 );
-    SWEET_ASSERT( position );
-    SWEET_ASSERT( lines );
+    assert( lexeme );
+    assert( lexeme->length() == 1 );
+    assert( position );
+    assert( lines );
 
     PositionIterator<istream_iterator<unsigned char>> i = begin;
     int terminator = lexeme->at( 0 );
-    SWEET_ASSERT( terminator == '\'' || terminator == '"' );
+    assert( terminator == '\'' || terminator == '"' );
     lexeme->clear();
     
     while ( i != end && *i != terminator )
@@ -106,7 +106,7 @@ static void string_( PositionIterator<istream_iterator<unsigned char>> begin, Po
             
             if ( i != end && *i != terminator )
             {
-                SWEET_ASSERT( *i == ';' );
+                assert( *i == ';' );
                 ++i;
             }
 
@@ -167,8 +167,8 @@ static void* attribute( XmlParserContext* context, const ParserNode<char>* nodes
 
 XmlParser::XmlParser( const char* filename, Element* element, error::ErrorPolicy* error_policy )
 {
-    SWEET_ASSERT( filename );
-    SWEET_ASSERT( error_policy );
+    assert( filename );
+    assert( error_policy );
 
     std::ifstream stream( filename, std::ios::binary );
     error_policy->error( !stream.is_open(), "Opening '%s' failed", filename );
@@ -180,8 +180,8 @@ XmlParser::XmlParser( const char* filename, Element* element, error::ErrorPolicy
 
 XmlParser::XmlParser( const wchar_t* filename, Element* element, error::ErrorPolicy* error_policy )
 {
-    SWEET_ASSERT( filename );
-    SWEET_ASSERT( error_policy );
+    assert( filename );
+    assert( error_policy );
     
     std::ifstream stream( narrow(filename).c_str(), std::ios::binary );
     error_policy->error( !stream.is_open(), "Opening '%s' failed", narrow(filename).c_str() );
@@ -198,7 +198,7 @@ XmlParser::XmlParser( std::istream& stream, Element* element, error::ErrorPolicy
 
 void XmlParser::parse( const char* filename, std::istream& stream, Element* element, error::ErrorPolicy* error_policy )
 {
-    SWEET_ASSERT( error_policy );
+    assert( error_policy );
     
     stream.unsetf( std::iostream::skipws );
     stream.exceptions( std::iostream::badbit );

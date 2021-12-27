@@ -7,7 +7,7 @@
 
 #include "ObjectGuard.hpp"
 #include "objects.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -38,7 +38,7 @@ void save( Archive& archive, int mode, const char* name, Type*& object )
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }
@@ -46,7 +46,7 @@ void save( Archive& archive, int mode, const char* name, Type*& object )
 template <class Archive, class Type>
 void load( Archive& archive, int mode, const char* name, Type*& object )
 {
-    SWEET_ASSERT( object == NULL );
+    assert( object == NULL );
 
     ObjectGuard<Archive> guard( archive, name, 0, mode );
     switch ( archive.get_mode() )
@@ -60,7 +60,7 @@ void load( Archive& archive, int mode, const char* name, Type*& object )
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }
@@ -84,7 +84,7 @@ void resolve( Archive& archive, int mode, Type*& object )
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }

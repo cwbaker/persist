@@ -13,7 +13,7 @@
 #include "void_pointers.ipp"
 #include "strings.ipp"
 #include "functions.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 /**
 // Read a LUA archive into an object.
@@ -35,13 +35,13 @@ persist::LuaReader::read( const Char* filename, const char* name, Type& object )
 // Set the directory that this archive is being written to in the base
 // Reader class so that it can be retrieved later for path filtering.
 //
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
 
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //
@@ -76,13 +76,13 @@ persist::LuaReader::read( const Char* filename, const char* name, const char* ch
 // Set the directory that this archive is being written to in the base
 // Reader class so that it can be retrieved later for path filtering.
 //
-    SWEET_ASSERT( filename != 0 );
+    assert( filename != 0 );
     set_filename( widen(filename) );
 
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != 0 );
+    assert( get_element() != 0 );
     get_element()->clear();
 
 //
@@ -117,13 +117,13 @@ persist::LuaReader::read( const Char* filename, const char* name, const char* ch
 // Set the directory that this archive is being written to in the base
 // Reader class so that it can be retrieved later for path filtering.
 //
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
 
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //
@@ -154,7 +154,7 @@ persist::LuaReader::read( std::istream& stream, const char* name, Type& object )
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //
@@ -188,7 +188,7 @@ persist::LuaReader::read( std::istream& stream, const char* name, const char* ch
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //
@@ -222,7 +222,7 @@ persist::LuaReader::read( std::istream& stream, const char* name, const char* ch
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //

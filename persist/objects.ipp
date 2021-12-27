@@ -2,7 +2,7 @@
 
 #include "ObjectGuard.hpp"
 #include "types.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -19,20 +19,20 @@ template <class Type> struct resolver
 {
     static void resolve( void* /*reference*/, void* /*raw_ptr*/, void* /*smart_ptr*/ )
     {
-        SWEET_ASSERT( false );
+        assert( false );
     }
 };
 
 template <class Archive, class Type> void save( Archive& archive, int mode, const char* name, Type& object )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );    
+    assert( mode == MODE_VALUE );    
     ObjectGuard<Archive> guard( archive, name, &object, mode, 1 );
     object.persist( archive );
 }
 
 template <class Archive, class Type> void load( Archive& archive, int mode, const char* name, Type& object )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
@@ -44,7 +44,7 @@ template <class Archive, class Type> void load( Archive& archive, int mode, cons
 
 template <class Archive, class Type> void resolve( Archive& archive, int mode, Type& object )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     
     ObjectGuard<Archive> guard( archive, 0, &object, MODE_VALUE );    

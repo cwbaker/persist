@@ -1,7 +1,7 @@
 #pragma once
 
 #include "functions.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -16,7 +16,7 @@ template <class Archive, class Type>
 void persist( Archive& archive, void* object )
 {
     Type* type = static_cast<Type*>( object );
-    SWEET_ASSERT( type );
+    assert( type );
     type->persist( archive );
 }
 

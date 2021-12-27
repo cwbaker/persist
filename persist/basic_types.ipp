@@ -9,7 +9,7 @@ namespace persist
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, bool& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -18,7 +18,7 @@ void save( Archive& archive, int mode, const char* name, bool& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, bool& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -33,7 +33,7 @@ void resolve( Archive& archive, int /*mode*/, bool& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, char& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -42,7 +42,7 @@ void save( Archive& archive, int mode, const char* name, char& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, char& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -57,7 +57,7 @@ void resolve( Archive& archive, int /*mode*/, char& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, signed char& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -66,7 +66,7 @@ void save( Archive& archive, int mode, const char* name, signed char& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, signed char& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -81,7 +81,7 @@ void resolve( Archive& archive, int /*mode*/, signed char& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, unsigned char& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -90,7 +90,7 @@ void save( Archive& archive, int mode, const char* name, unsigned char& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, unsigned char& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -105,7 +105,7 @@ void resolve( Archive& archive, int /*mode*/, unsigned char& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, wchar_t& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -114,7 +114,7 @@ void save( Archive& archive, int mode, const char* name, wchar_t& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, wchar_t& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -129,7 +129,7 @@ void resolve( Archive& archive, int /*mode*/, wchar_t& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, short& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -138,7 +138,7 @@ void save( Archive& archive, int mode, const char* name, short& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, short& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -153,7 +153,7 @@ void resolve( Archive& archive, int /*mode*/, short& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, unsigned short& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -162,7 +162,7 @@ void save( Archive& archive, int mode, const char* name, unsigned short& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, unsigned short& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -177,7 +177,7 @@ void resolve( Archive& archive, int /*mode*/, unsigned short& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, int& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -186,7 +186,7 @@ void save( Archive& archive, int mode, const char* name, int& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, int& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -201,7 +201,7 @@ void resolve( Archive& archive, int /*mode*/, int& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, unsigned int& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -210,7 +210,7 @@ void save( Archive& archive, int mode, const char* name, unsigned int& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, unsigned int& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -225,7 +225,7 @@ void resolve( Archive& archive, int /*mode*/, unsigned int& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, long& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -234,7 +234,7 @@ void save( Archive& archive, int mode, const char* name, long& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, long& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -249,7 +249,7 @@ void resolve( Archive& archive, int /*mode*/, long& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, unsigned long& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -258,7 +258,7 @@ void save( Archive& archive, int mode, const char* name, unsigned long& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, unsigned long& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -273,7 +273,7 @@ void resolve( Archive& archive, int /*mode*/, unsigned long& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, float& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -282,7 +282,7 @@ void save( Archive& archive, int mode, const char* name, float& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, float& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );
@@ -297,7 +297,7 @@ void resolve( Archive& archive, int /*mode*/, float& /*value*/ )
 template <class Archive>
 void save( Archive& archive, int mode, const char* name, double& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE, 1 );
     archive.value( "value", value );
@@ -306,7 +306,7 @@ void save( Archive& archive, int mode, const char* name, double& value )
 template <class Archive>
 void load( Archive& archive, int mode, const char* name, double& value )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     archive.value( "value", value );

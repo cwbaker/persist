@@ -1,6 +1,6 @@
 #pragma once
 
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <memory>
 
 namespace persist
@@ -23,7 +23,7 @@ void save( Archive& archive, int mode, const char* name, std::shared_ptr<Type>& 
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }
@@ -31,7 +31,7 @@ void save( Archive& archive, int mode, const char* name, std::shared_ptr<Type>& 
 template <class Archive, class Type>
 void load( Archive& archive, int mode, const char* name, std::shared_ptr<Type>& object )
 {
-    SWEET_ASSERT( !object.get() );
+    assert( !object.get() );
 
     ObjectGuard<Archive> guard( archive, name, 0, mode );
     switch ( mode )
@@ -45,7 +45,7 @@ void load( Archive& archive, int mode, const char* name, std::shared_ptr<Type>& 
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }
@@ -69,7 +69,7 @@ void resolve( Archive& archive, int mode, std::shared_ptr<Type>& object )
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }

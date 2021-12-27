@@ -6,7 +6,7 @@
 #include "EnumFilter.hpp"
 #include "types.hpp"
 #include <error/ErrorPolicy.hpp>
-#include <assert/assert.hpp>
+#include "assert.hpp"
 #include <stdlib.h>
 #include <stdio.h>
 

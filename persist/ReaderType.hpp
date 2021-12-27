@@ -1,6 +1,6 @@
 #pragma once
 
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <typeinfo>
 #include <string>
 
@@ -20,7 +20,7 @@ public:
     {
         bool operator()( const ReaderType* lhs, const ReaderType* rhs ) const
         {
-            SWEET_ASSERT( lhs && rhs );
+            assert( lhs && rhs );
             return lhs->compare_by_name( *rhs );
         }
     };

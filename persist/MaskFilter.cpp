@@ -4,7 +4,7 @@
 //
 
 #include "MaskFilter.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 using namespace persist;
 
@@ -12,7 +12,7 @@ MaskFilter::MaskFilter( const MaskFilter::Conversion* conversions )
 : m_conversions( conversions )
 , m_string()
 {
-    SWEET_ASSERT( m_conversions );
+    assert( m_conversions );
 }
 
 int MaskFilter::to_memory( const std::string& value, error::ErrorPolicy& /*error_policy*/ ) const
@@ -105,7 +105,7 @@ MaskFilter persist::mask_filter( const MaskFilter::Conversion* conversions )
 
 bool MaskFilter::in( int character, const char* separators )
 {
-    SWEET_ASSERT( separators );    
+    assert( separators );    
     const char* i = separators;
     while ( *i != '\0' && *i != character )
     {
@@ -116,7 +116,7 @@ bool MaskFilter::in( int character, const char* separators )
 
 bool MaskFilter::compare( std::string::const_iterator begin, std::string::const_iterator end, const char* value )
 {
-    SWEET_ASSERT( value );    
+    assert( value );    
     while ( begin != end && *value != '\0' && *begin == *value )
     {
         ++begin;

@@ -2,7 +2,7 @@
 
 #include "ObjectGuard.hpp"
 #include "remove_const.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -24,7 +24,7 @@ void save_stl_map( Archive& archive, int mode, const char* name, const char* chi
 template <class Archive, class Container>
 void load_stl_map( Archive& archive, int mode, const char* name, const char* child_name, Container& container )
 {
-    SWEET_ASSERT( container.empty() );
+    assert( container.empty() );
 
     ObjectGuard<Archive> sequence_guard( archive, name, 0, MODE_VALUE );
     if ( archive.is_object() )
@@ -62,7 +62,7 @@ void load_stl_map( Archive& archive, int mode, const char* name, const char* chi
 template <class Archive, class Container>
 void load_stl_multimap( Archive& archive, int mode, const char* name, const char* child_name, Container& container )
 {
-    SWEET_ASSERT( container.empty() );    
+    assert( container.empty() );    
 
     ObjectGuard<Archive> sequence_guard( archive, name, 0, MODE_VALUE );
     if ( archive.is_object() )

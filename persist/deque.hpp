@@ -12,7 +12,7 @@ void save( Archive& archive, int mode, const char* name, const char* child_name,
 template <class Archive, class Type, class ALLOCATOR> 
 void load( Archive& archive, int mode, const char* name, const char* child_name, std::deque<Type, ALLOCATOR>& container )
 {
-    SWEET_ASSERT( container.empty() );
+    assert( container.empty() );
     load_stl_sequence( archive, mode, name, child_name, container );
 }
 

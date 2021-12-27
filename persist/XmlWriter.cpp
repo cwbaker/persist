@@ -6,7 +6,7 @@
 #include "XmlWriter.hpp"
 #include "functions.hpp"
 #include "Writer.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <fstream>
 
 using namespace persist;
@@ -25,8 +25,8 @@ XmlWriter::XmlWriter( const TextWriter& writer )
 
 void XmlWriter::write( const wchar_t* filename, const Element* element )
 {
-    SWEET_ASSERT( filename );
-    SWEET_ASSERT( element );
+    assert( filename );
+    assert( element );
     std::ofstream stream( narrow(std::wstring(filename)).c_str() );
     write( stream, element );
     stream.close();
@@ -34,7 +34,7 @@ void XmlWriter::write( const wchar_t* filename, const Element* element )
 
 void XmlWriter::write( std::ostream& stream, const Element* element )
 {
-    SWEET_ASSERT( element );
+    assert( element );
     stream.exceptions( std::wofstream::badbit | std::wofstream::failbit );
     stream << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n";
     write_element( stream, element, element->is_flag(PERSIST_PRESERVE_EMPTY_ELEMENTS), 0 );
@@ -49,7 +49,7 @@ void XmlWriter::write_element( std::ostream& stream, const Element* element, boo
     //  Decide whether it is valid to write out empty Element and Attribute
     //  trees or whether an exception should be thrown here.
     //
-        SWEET_ASSERT( false );
+        assert( false );
         return;
     }
 

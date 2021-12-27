@@ -3,7 +3,7 @@
 #include "Resolver.ipp"
 #include "ReaderType.ipp"
 #include "functions.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <memory>
 
 namespace persist
@@ -44,7 +44,7 @@ template <class DerivedArchive>
 template <class Type>
 void Reader<DerivedArchive>::enter( const char* format, int /*version*/, Type& /*object*/ )
 {
-    SWEET_ASSERT( format );
+    assert( format );
 
     if ( !is_entered() )
     {

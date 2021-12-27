@@ -8,7 +8,7 @@
 #include "void_pointers.ipp"
 #include "strings.ipp"
 #include "functions.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <fstream>
 #include <string.h>
 
@@ -18,7 +18,7 @@ namespace persist
 template <class Char, class Type> 
 void BinaryWriter::write( const Char* filename, const Char* name, Type& object )
 {
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
     std::ofstream stream( filename, std::ios::binary );
     write( stream, name, object );
@@ -27,7 +27,7 @@ void BinaryWriter::write( const Char* filename, const Char* name, Type& object )
 template <class Char, class Type> 
 void BinaryWriter::write( const Char* filename, const Char* name, const Char* child_name, Type& container )
 {
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
     write( std::ofstream(filename, std::ios::binary), name, child_name, container );
 }
@@ -35,7 +35,7 @@ void BinaryWriter::write( const Char* filename, const Char* name, const Char* ch
 template <class Char, class Type, size_t LENGTH> 
 void BinaryWriter::write( const Char* filename, const Char* name, const Char* child_name, Type (& values)[LENGTH] )
 {
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
     write( std::ofstream(filename, std::ios::binary), name, child_name, values );
 }
@@ -44,7 +44,7 @@ template <class Char, class Type>
 void BinaryWriter::write( std::ostream& ostream, const Char* /*name*/, Type& object )
 {
     reset();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(MODE_VALUE) );
     m_ostream = &ostream;
     ostream.exceptions( std::ostream::badbit | std::ostream::failbit );
@@ -54,14 +54,14 @@ void BinaryWriter::write( std::ostream& ostream, const Char* /*name*/, Type& obj
 
     m_ostream = NULL;
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
 }
 
 template <class Char, class Type> 
 void BinaryWriter::write( std::ostream& ostream, const Char* /*name*/, const Char* /*child_name*/, Type& container )
 {
     reset();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(MODE_VALUE) );
     m_ostream = &ostream;
     ostream.exceptions( std::ostream::badbit | std::ostream::failbit );
@@ -70,14 +70,14 @@ void BinaryWriter::write( std::ostream& ostream, const Char* /*name*/, const Cha
 
     m_ostream = NULL;
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
 }
 
 template <class Char, class Type, size_t LENGTH> 
 void BinaryWriter::write( std::ostream& ostream, const Char* /*name*/, const Char* /*child_name*/, Type (& values)[LENGTH] )
 {
     reset();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(MODE_VALUE) );
     m_ostream = &ostream;
     ostream.exceptions( std::ostream::badbit | std::ostream::failbit );
@@ -86,7 +86,7 @@ void BinaryWriter::write( std::ostream& ostream, const Char* /*name*/, const Cha
 
     m_ostream = NULL;
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
 }
 
 template <class Filter> 
@@ -116,7 +116,7 @@ void BinaryWriter::value( const char* /*name*/, std::string& value, const Filter
 template <class Type, class Filter>
 void BinaryWriter::value( const char* /*name*/, Type& value, const Filter& /*filter*/ )
 {
-    SWEET_ASSERT( m_ostream );
+    assert( m_ostream );
 
     if ( get_mode() != MODE_REFERENCE )
     {

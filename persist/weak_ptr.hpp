@@ -1,6 +1,6 @@
 #pragma once
 
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <memory>
 
 namespace persist
@@ -13,7 +13,7 @@ void save( Archive& archive, int mode, const char* name, std::weak_ptr<Type>& ob
 // A weak_ptr can only ever be a reference and so it is always written out
 // as such.
 //
-    SWEET_ASSERT( mode == MODE_REFERENCE );
+    assert( mode == MODE_REFERENCE );
     if ( !object.expired() )
     {
         std::shared_ptr<Type> locked_object = object.lock();
@@ -28,8 +28,8 @@ void save( Archive& archive, int mode, const char* name, std::weak_ptr<Type>& ob
 template <class Archive, class Type>
 void load( Archive& archive, int mode, const char* name, std::weak_ptr<Type>& object )
 {
-    SWEET_ASSERT( mode == MODE_REFERENCE );
-    SWEET_ASSERT( object.expired() );
+    assert( mode == MODE_REFERENCE );
+    assert( object.expired() );
 
     ObjectGuard<Archive> guard( archive, name, 0, MODE_REFERENCE );
     archive.reference( archive.get_address(), reinterpret_cast<void**>(&object), &resolver<std::weak_ptr<Type>>::resolve );
@@ -38,7 +38,7 @@ void load( Archive& archive, int mode, const char* name, std::weak_ptr<Type>& ob
 template <class Archive, class Type>
 void resolve( Archive& archive, int mode, std::weak_ptr<Type>& object )
 {
-    SWEET_ASSERT( mode == MODE_REFERENCE );
+    assert( mode == MODE_REFERENCE );
     archive.reference( 0, reinterpret_cast<void**>(&object), &resolver<std::weak_ptr<Type>>::resolve );
 }
 
