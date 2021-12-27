@@ -9,6 +9,7 @@ local cc = require 'forge.cc' {
     obj = root( ('%s/obj'):format(variant) );
     include_directories = {
         root();
+        root( 'unittest-cpp' );
     };
     library_directories = {
         root( ("%s/lib"):format(variant) );
