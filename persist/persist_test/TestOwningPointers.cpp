@@ -3,12 +3,18 @@
 // Copyright (c) Charles Baker.  All rights reserved.
 //
 
-#if defined SWEET_BOOST_ENABLED
-
 #include <UnitTest++/UnitTest++.h>
-#include <sweet/persist/persist.hpp>
-#include <sweet/persist/auto_ptr.hpp>
-#include <sweet/persist/scoped_ptr.hpp>
+#include <persist/unique_ptr.hpp>
+#include <persist/shared_ptr.hpp>
+#include <persist/persist.hpp>
+#include <persist/BinaryWriter.ipp>
+#include <persist/BinaryReader.ipp>
+#include <persist/LuaWriter.ipp>
+#include <persist/LuaReader.ipp>
+#include <persist/JsonWriter.ipp>
+#include <persist/JsonReader.ipp>
+#include <persist/XmlWriter.ipp>
+#include <persist/XmlReader.ipp>
 #include "Item.hpp"
 #include "TestBody.hpp"
 
@@ -18,42 +24,42 @@ SUITE( TestOwningPointers )
 {
     struct Model
     {
-        std::auto_ptr<Item>     auto_ptr_item_;
-        boost::scoped_ptr<Item> scoped_ptr_item_;    
+        std::unique_ptr<Item> unique_ptr_item_;
+        std::shared_ptr<Item> shared_ptr_item_;    
 
     public:
         Model()
-        : auto_ptr_item_( new Item("AutoPtrItem", 0) ),
-          scoped_ptr_item_( new Item("ScopedPtrItem", 1) )
+        : unique_ptr_item_( new Item("UniquePtrItem", 0) ),
+          shared_ptr_item_( new Item("SharedPtrItem", 1) )
         {
         }
 
         void clear()
         {
-            auto_ptr_item_.reset();
-            scoped_ptr_item_.reset();
+            unique_ptr_item_.reset();
+            shared_ptr_item_.reset();
         }
 
         template <class Archive> void enter( Archive& archive )
         {
-            archive.declare <Item> ( "Item", PERSIST_NORMAL );
+            archive.template declare <Item> ( "Item", PERSIST_NORMAL );
         }
 
-        template <class Archive> void exit( Archive& archive )
+        template <class Archive> void exit( Archive& /*archive*/ )
         {
         }
 
         template <class Archive> void persist( Archive& archive )
         {
             archive.enter( "Model", 1, *this );
-            archive.value( "auto_ptr_item",   auto_ptr_item_ );
-            archive.value( "scoped_ptr_item", scoped_ptr_item_ );
+            archive.value( "auto_ptr_item", unique_ptr_item_ );
+            archive.value( "scoped_ptr_item", shared_ptr_item_ );
         }
 
         void check( const Model& model )
         {
-            CHECK( auto_ptr_item_.get() != NULL && model.auto_ptr_item_.get() != NULL && *auto_ptr_item_ == *model.auto_ptr_item_ );
-            CHECK( scoped_ptr_item_.get() != NULL && model.scoped_ptr_item_.get() != NULL && *scoped_ptr_item_ == *model.scoped_ptr_item_ );
+            CHECK( unique_ptr_item_.get() != nullptr && model.unique_ptr_item_.get() != nullptr && *unique_ptr_item_ == *model.unique_ptr_item_ );
+            CHECK( shared_ptr_item_.get() != nullptr && model.shared_ptr_item_.get() != nullptr && *shared_ptr_item_ == *model.shared_ptr_item_ );
         }
     };
 
@@ -81,5 +87,3 @@ SUITE( TestOwningPointers )
         body.written_model_.check( body.read_model_ );
     }
 }
-
-#endif

@@ -18,10 +18,15 @@ struct TestBody
     {
         assert( filename );        
         Writer writer;
+        written_model_.enter( writer );
         writer.write( filename, "model", written_model_ );
+        written_model_.exit( writer );
+
         read_model_.clear();
         Reader reader;
+        read_model_.enter( reader );
         reader.read( filename, "model", read_model_ );
+        read_model_.exit( reader );
     }
 
     ~TestBody()

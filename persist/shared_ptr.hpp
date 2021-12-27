@@ -6,6 +6,19 @@
 namespace persist
 {
 
+template <class Type> struct resolver<std::shared_ptr<Type>>
+{
+    static void resolve( void* reference, void* /*raw_ptr*/, void* smart_ptr )
+    {
+        if ( smart_ptr )
+        {
+            std::shared_ptr<Type>* referer = static_cast<std::shared_ptr<Type>*>( reference );
+            std::shared_ptr<Type>* owner = static_cast<std::shared_ptr<Type>*>( smart_ptr );
+            *referer = *owner;
+        }
+    }
+};
+
 template <class Archive, class Type>
 void save( Archive& archive, int mode, const char* name, std::shared_ptr<Type>& object )
 {
@@ -37,7 +50,7 @@ void load( Archive& archive, int mode, const char* name, std::shared_ptr<Type>& 
     switch ( mode )
     {
         case MODE_VALUE:
-            object.reset( static_cast<Type*>(archive.create_and_persist<Type>()) );
+            object.reset( static_cast<Type*>(archive.template create_and_persist<Type>()) );
             break;
 
         case MODE_REFERENCE:
@@ -73,19 +86,5 @@ void resolve( Archive& archive, int mode, std::shared_ptr<Type>& object )
             break;
     }
 }
-
-template <class Type>
-struct resolver<std::shared_ptr<Type>>
-{
-    static void resolve( void* reference, void* raw_ptr, void* smart_ptr )
-    {
-        if ( smart_ptr )
-        {
-            std::shared_ptr<Type>* referer = static_cast<std::shared_ptr<Type>*>( reference );
-            std::shared_ptr<Type>* owner = static_cast<std::shared_ptr<Type>*>( smart_ptr );
-            *referer = *owner;
-        }
-    }
-};
 
 }
