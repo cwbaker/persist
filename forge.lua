@@ -34,6 +34,7 @@ local cc = require 'forge.cc' {
     lua_mobdebug_enabled = variant ~= 'shipping';
     minimal_rebuild = variant == 'debug';
     optimization = variant ~= 'debug';
+    persist_test_enabled = true;
     run_time_checks = variant == 'debug';
     runtime_library = variant == 'debug' and 'static_debug' or 'static_release';
     run_time_type_info = true;
