@@ -25,7 +25,6 @@ local cc = require 'forge.cc' {
     defines = {
         ('BUILD_OS_%s'):format( upper(operating_system()) );
         ('BUILD_VARIANT_%s'):format( upper(variant) );
-        variant ~= 'shipping' and '_DEBUG' or 'NDEBUG';
     };
     zero_brane_studio = {
         mobdebug = mobdebug;
@@ -53,6 +52,12 @@ local cc = require 'forge.cc' {
     warning_level = 3;
     warnings_as_errors = true;
 };
+
+if variant == 'debug' then
+    table.insert( cc.settings.defines, '_DEBUG' );
+elseif variant == 'shipping' then
+    table.insert( cc.settings.defines, 'NDEBUG' );
+end
 
 cc:install( require('forge.lalr') );
 
