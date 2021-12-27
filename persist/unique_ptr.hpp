@@ -1,6 +1,6 @@
 #pragma once
 
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <memory>
 
 namespace persist
@@ -30,7 +30,7 @@ template <class Archive, class Type>
 void
 save( Archive& archive, int mode, const char* name, std::unique_ptr<Type>& object )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     ObjectGuard<Archive> guard( archive, name, object.get(), mode, object.get() != nullptr ? 1: 0 );
     if ( object.get() )
     {
@@ -64,7 +64,7 @@ template <class Archive, class Type>
 void
 load( Archive& archive, int /*mode*/, const char* name, std::unique_ptr<Type>& object )
 {
-    SWEET_ASSERT( !object.get() );
+    assert( !object.get() );
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     object.reset( static_cast<Type*>(archive.template create_and_persist<Type>()) );
 }

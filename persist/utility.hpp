@@ -3,7 +3,7 @@
 #include "remove_const.hpp"
 #include "types.hpp"
 #include "ObjectGuard.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -11,7 +11,7 @@ namespace persist
 template <class Archive, class First, class Second>
 void save( Archive& archive, int mode, const char* name, std::pair<First, Second>& object )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, &object, MODE_VALUE, 1 );
     save( archive, MODE_VALUE, "first",  const_cast<typename remove_const<First>::type&>(object.first) );
@@ -21,7 +21,7 @@ void save( Archive& archive, int mode, const char* name, std::pair<First, Second
 template <class Archive, class First, class Second>
 void load( Archive& archive, int mode, const char* name, std::pair<First, Second>& object )
 {
-    SWEET_ASSERT( mode == MODE_VALUE );
+    assert( mode == MODE_VALUE );
     (void) mode;
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     load( archive, MODE_VALUE, "first",  const_cast<typename remove_const<First>::type&>(object.first) );

@@ -35,8 +35,8 @@ Resolver::Resolver( const Resolver& resolver )
 
 void Resolver::track( void* raw_ptr, void* smart_ptr )
 {
-    SWEET_ASSERT( !m_state.empty() );
-    SWEET_ASSERT( m_state.top().m_object );
+    assert( !m_state.empty() );
+    assert( m_state.top().m_object );
 
     const Object* object = m_state.top().m_object;
     if ( (object->m_flags & PERSIST_ANONYMOUS) == 0 )
@@ -56,8 +56,8 @@ void Resolver::track( void* raw_ptr, void* smart_ptr )
 
 void Resolver::reference( const void* /*ignored_address*/, void* reference, void (*resolve)(void* reference, void* raw_ptr, void* smart_ptr) )
 {
-    SWEET_ASSERT( m_state.top().m_object );
-    SWEET_ASSERT( m_state.top().m_current_reference_address != m_state.top().m_object->m_reference_addresses.end() );
+    assert( m_state.top().m_object );
+    assert( m_state.top().m_current_reference_address != m_state.top().m_object->m_reference_addresses.end() );
 
     const void* actual_address = *m_state.top().m_current_reference_address;
     ++m_state.top().m_current_reference_address;
@@ -93,7 +93,7 @@ Mode Resolver::get_mode() const
 
 int Resolver::get_count()
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
 
     int count = 0;
     if ( m_state.top().m_object != 0 )
@@ -105,7 +105,7 @@ int Resolver::get_count()
 
 void Resolver::begin_reference_addresses( const void* address )
 {
-    SWEET_ASSERT( !m_current_object.empty() && m_current_object.top() );
+    assert( !m_current_object.empty() && m_current_object.top() );
     Object* current_object = m_current_object.top();
     current_object->m_objects.push_back( Object(address) );
     m_current_object.push( &current_object->m_objects.back() );
@@ -113,7 +113,7 @@ void Resolver::begin_reference_addresses( const void* address )
 
 void Resolver::end_reference_addresses()
 {
-    SWEET_ASSERT( !m_current_object.empty() );
+    assert( !m_current_object.empty() );
     m_current_object.pop();
 }
 
@@ -129,8 +129,8 @@ void Resolver::move_reference_addresses_backward( int n )
     // changed in the application code.  Allowing the reference identifiers to
     // be reordered here ensures that they will be encountered in the correct
     // order on the resolve pass.
-    SWEET_ASSERT( n > 0 );
-    SWEET_ASSERT( !m_current_object.empty() );
+    assert( n > 0 );
+    assert( !m_current_object.empty() );
 
     Object* current_object = m_current_object.top();
     list<Object>::iterator to = current_object->m_objects.end();
@@ -142,20 +142,20 @@ void Resolver::move_reference_addresses_backward( int n )
 
 void Resolver::add_reference_address( const void* address )
 {
-    SWEET_ASSERT( !m_current_object.empty() && m_current_object.top() );
+    assert( !m_current_object.empty() && m_current_object.top() );
     m_current_object.top()->m_reference_addresses.push_back( address );
 }
 
 void Resolver::begin_object( const char* /*name*/, const void* /*address*/, Mode mode, int /*size*/ )
 {
-    SWEET_ASSERT( mode == MODE_VALUE || mode == MODE_REFERENCE );
+    assert( mode == MODE_VALUE || mode == MODE_REFERENCE );
 
     if ( mode == MODE_VALUE )
     {
         Object* object = nullptr;
         if ( m_state.top().m_object )
         {
-            SWEET_ASSERT( m_state.top().m_current_object != m_state.top().m_object->m_objects.end() );
+            assert( m_state.top().m_current_object != m_state.top().m_object->m_objects.end() );
             object = &(*m_state.top().m_current_object);
             ++m_state.top().m_current_object;
         }
@@ -164,7 +164,7 @@ void Resolver::begin_object( const char* /*name*/, const void* /*address*/, Mode
     }
     else
     {
-        SWEET_ASSERT( !m_state.empty() );
+        assert( !m_state.empty() );
         m_state.top().m_mode = MODE_REFERENCE;
     }
 }
@@ -183,8 +183,8 @@ void Resolver::end_object()
 
 bool Resolver::is_object() const
 {
-    SWEET_ASSERT( !m_state.empty() );
-    SWEET_ASSERT( m_state.top().m_object != 0 );
+    assert( !m_state.empty() );
+    assert( m_state.top().m_object != 0 );
     return m_state.top().m_object->m_address != 0;
 }
 
@@ -194,8 +194,8 @@ void Resolver::type( const std::string& /*type*/ )
 
 void Resolver::flag( int value )
 {
-    SWEET_ASSERT( !m_state.empty() );
-    SWEET_ASSERT( m_state.top().m_object );
+    assert( !m_state.empty() );
+    assert( m_state.top().m_object );
     m_state.top().m_object->m_flags = value;
 }
 

@@ -9,7 +9,7 @@
 #include "TextReader.hpp"
 #include "Reader.ipp"
 #include "objects.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <string.h>
 
 namespace persist
@@ -22,11 +22,11 @@ void TextReader::read( const char* name, Type& object )
     m_resolver.set_contexts( get_contexts() );
     reset();
 
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(&m_element, MODE_VALUE) );
     load( *this, MODE_VALUE, name, object );
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
 
     m_resolver.process( version(), object, error_policy_ );
 }
@@ -38,11 +38,11 @@ void TextReader::read( const char* name, const char* child_name, Type& container
     m_resolver.set_contexts( get_contexts() );
     reset();
 
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(&m_element, MODE_VALUE) );
     load( *this, MODE_VALUE, name, child_name, container );
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
 
     m_resolver.process( version(), container, error_policy_ );
 }
@@ -55,11 +55,11 @@ void TextReader::read( const char* name, const char* child_name, Type (&values)[
 
     reset();
 
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(&m_element, MODE_VALUE) );
     load( *this, MODE_VALUE, name, child_name, values, LENGTH );
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
 
     m_resolver.process( version(), values, LENGTH, error_policy_ );
 }

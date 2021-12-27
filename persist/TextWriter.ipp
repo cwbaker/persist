@@ -6,7 +6,7 @@
 #pragma once
 
 #include "Writer.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <string.h>
 
 namespace persist
@@ -18,11 +18,11 @@ void TextWriter::write( const char* name, Type& object )
     m_element.clear();
     reset();
 
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(&m_element, MODE_VALUE, &object) );
     save( *this, MODE_VALUE, name, object );
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
 }
 
 template <class Type> 
@@ -31,11 +31,11 @@ void TextWriter::write( const char* name, const char* child_name, Type& containe
     m_element.clear();
     reset();
 
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(&m_element, MODE_VALUE, &container) );
     save( *this, MODE_VALUE, name, child_name, container );
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
 }
 
 template <class Type, size_t LENGTH> 
@@ -44,11 +44,11 @@ void TextWriter::write( const char* name, const char* child_name, Type (& values
     m_element.clear();
     reset();
 
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(&m_element, MODE_VALUE, nullptr) );
     save( *this, MODE_VALUE, name, child_name, values, LENGTH );
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
 }
 
 template <class Filter> 
@@ -79,7 +79,7 @@ void TextWriter::value( const char* name, std::string& value, const Filter& filt
 template <class Type, class Filter> 
 void TextWriter::value( const char* name, Type& value, const Filter& filter )
 {
-    SWEET_ASSERT( name );
+    assert( name );
     if ( get_mode() != MODE_REFERENCE )
     {
         std::string text_value = filter.to_archive(static_cast<int>(value)).c_str();
@@ -90,7 +90,7 @@ void TextWriter::value( const char* name, Type& value, const Filter& filter )
 template <class Type> 
 void TextWriter::value( const char* name, Type& object )
 {
-    SWEET_ASSERT( name );
+    assert( name );
     if ( get_mode() != MODE_REFERENCE )
     {
         save( *this, MODE_VALUE, name, object );
@@ -100,7 +100,7 @@ void TextWriter::value( const char* name, Type& object )
 template <class Type> 
 void TextWriter::refer( const char* name, Type& object )
 {
-    SWEET_ASSERT( name );
+    assert( name );
     if ( get_mode() != MODE_REFERENCE )
     {
         save( *this, MODE_REFERENCE, name, object );
@@ -110,8 +110,8 @@ void TextWriter::refer( const char* name, Type& object )
 template <class Type> 
 void TextWriter::value( const char* name, const char* child_name, Type& container )
 {
-    SWEET_ASSERT( name );
-    SWEET_ASSERT( child_name );
+    assert( name );
+    assert( child_name );
     
     if ( get_mode() != MODE_REFERENCE )
     {
@@ -122,8 +122,8 @@ void TextWriter::value( const char* name, const char* child_name, Type& containe
 template <class Type> 
 void TextWriter::refer( const char* name, const char* child_name, Type& container )
 {
-    SWEET_ASSERT( name );
-    SWEET_ASSERT( child_name );
+    assert( name );
+    assert( child_name );
 
     if ( get_mode() != MODE_REFERENCE )
     {
@@ -134,8 +134,8 @@ void TextWriter::refer( const char* name, const char* child_name, Type& containe
 template <class Type, size_t LENGTH> 
 void TextWriter::value( const char* name, const char* child_name, Type (& values)[LENGTH] )
 {
-    SWEET_ASSERT( name );
-    SWEET_ASSERT( child_name );
+    assert( name );
+    assert( child_name );
 
     if ( get_mode() != MODE_REFERENCE )
     {
@@ -146,8 +146,8 @@ void TextWriter::value( const char* name, const char* child_name, Type (& values
 template <class Type, size_t LENGTH> 
 void TextWriter::refer( const char* name, const char* child_name, Type (& values)[LENGTH] )
 {
-    SWEET_ASSERT( name );
-    SWEET_ASSERT( child_name );
+    assert( name );
+    assert( child_name );
 
     if ( get_mode() != MODE_REFERENCE )
     {

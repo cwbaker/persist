@@ -146,7 +146,7 @@ SUITE( TestLinks )
     void 
     load( Archive& archive, int mode, const char* name, Link::ptr& resource )
     {
-        SWEET_ASSERT( resource.get() == 0 );
+        assert( resource.get() == 0 );
 
         ObjectGuard<Archive> guard( archive, name, 0, mode );
         if ( archive.is_object() )
@@ -155,7 +155,7 @@ SUITE( TestLinks )
             archive.value( "link", link );
 
             Model* model = reinterpret_cast<Model*>( archive.get_context(typeid(Link::ptr)) );
-            SWEET_ASSERT( model != 0 );
+            assert( model != 0 );
             resource = model->resource( link );
         }
     }

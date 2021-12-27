@@ -26,5 +26,5 @@ void persist_hello_world_example()
     hello_world.message.clear();    
     XmlReader xml_reader;
     xml_reader.read( "persist_hello_world_example.xml", "hello_world", hello_world );
-    SWEET_ASSERT( hello_world.message == "Hello World!" );
+    assert( hello_world.message == "Hello World!" );
 }

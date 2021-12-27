@@ -1,6 +1,6 @@
 #pragma once
 
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <vector>
 #include <string>
 #include <iterator>
@@ -393,7 +393,7 @@ Lexer<Iterator, Char, Traits, Allocator>::LexerActionHandler::LexerActionHandler
 : action_( action ),
   function_( function )
 {
-    SWEET_ASSERT( action_ != NULL );
+    assert( action_ != NULL );
 }
 
 
@@ -408,10 +408,10 @@ Lexer<Iterator, Char, Traits, Allocator>::Lexer( const LexerStateMachine* state_
   symbol_( 0 ),
   full_( false )
 {
-    SWEET_ASSERT( state_machine_ );
-    SWEET_ASSERT( state_machine_->actions_ );
-    SWEET_ASSERT( state_machine_->actions_end_ );
-    SWEET_ASSERT( state_machine_->actions_ <= state_machine_->actions_end_ );
+    assert( state_machine_ );
+    assert( state_machine_->actions_ );
+    assert( state_machine_->actions_end_ );
+    assert( state_machine_->actions_ <= state_machine_->actions_end_ );
 
     const LexerAction* actions = state_machine_->actions_;
     const LexerAction* actions_end = state_machine_->actions_end_;
@@ -427,7 +427,7 @@ template <class Iterator, class Char, class Traits, class Allocator>
 void 
 Lexer<Iterator, Char, Traits, Allocator>::set_action_handler( const char* identifier, LexerActionFunction function )
 {
-    SWEET_ASSERT( identifier );
+    assert( identifier );
     
     typename std::vector<LexerActionHandler>::iterator action_handler = action_handlers_.begin();
     while ( action_handler != action_handlers_.end() && strcmp(action_handler->action_->identifier_, identifier) != 0 )
@@ -520,7 +520,7 @@ Lexer<Iterator, Char, Traits, Allocator>::recover()
 template <class Iterator, class Char, class Traits, class Allocator>
 void Lexer<Iterator, Char, Traits, Allocator>::skip()
 {    
-    SWEET_ASSERT( state_machine_ );
+    assert( state_machine_ );
 
     const LexerState* state = state_machine_->whitespace_start_state_;
     if ( state )
@@ -532,9 +532,9 @@ void Lexer<Iterator, Char, Traits, Allocator>::skip()
             if ( transition->action_ )
             {
                 int index = transition->action_->index_;
-                SWEET_ASSERT( index >= 0 && index < (int) action_handlers_.size() );                
+                assert( index >= 0 && index < (int) action_handlers_.size() );                
                 const LexerActionFunction& function = action_handlers_[index].function_;
-                SWEET_ASSERT( function );
+                assert( function );
                 int symbol = 0;
                 function( &position_, end_, &lexeme_, &symbol );
             }
@@ -567,9 +567,9 @@ Lexer<Iterator, Char, Traits, Allocator>::run()
             if ( transition->action_ )
             {
                 int index = transition->action_->index_;
-                SWEET_ASSERT( index >= 0 && index < (int) action_handlers_.size() );                
+                assert( index >= 0 && index < (int) action_handlers_.size() );                
                 const LexerActionFunction& function = action_handlers_[index].function_;
-                SWEET_ASSERT( function );
+                assert( function );
                 function( &position_, end_, &lexeme_, &symbol );
             }
             else
@@ -588,7 +588,7 @@ template <class Iterator, class Char, class Traits, class Allocator>
 const LexerTransition* 
 Lexer<Iterator, Char, Traits, Allocator>::find_transition_by_character( const LexerState* state, int character ) const
 {
-    SWEET_ASSERT( state != NULL );
+    assert( state != NULL );
 
     const LexerTransition* transition = state->transitions_;
     while ( transition != state->transitions_end_ && !is_on_character(transition, character) )
@@ -604,7 +604,7 @@ template <class Iterator, class Char, class Traits, class Allocator>
 bool 
 Lexer<Iterator, Char, Traits, Allocator>::is_on_character( const LexerTransition* transition, int character ) const
 {
-    SWEET_ASSERT( transition != NULL );
+    assert( transition != NULL );
     return character >= transition->begin_ && character < transition->end_;
 }
 
@@ -636,7 +636,7 @@ ParserNode<UserData, Char, Traits, Allocator>::ParserNode( const ParserState* st
   lexeme_(),
   user_data_( user_data )
 {
-    SWEET_ASSERT( state != NULL );
+    assert( state != NULL );
 }
 
 
@@ -647,7 +647,7 @@ ParserNode<UserData, Char, Traits, Allocator>::ParserNode( const ParserState* st
   lexeme_( lexeme ),
   user_data_()
 {
-    SWEET_ASSERT( state != NULL );
+    assert( state != NULL );
 }
 
 
@@ -655,7 +655,7 @@ template <class Iterator, class Char, class Traits, class Allocator>
 AddLexerActionHandler<Iterator, Char, Traits, Allocator>::AddLexerActionHandler( Lexer<Iterator, Char, Traits, Allocator>* lexer )
 : lexer_( lexer )
 {
-    SWEET_ASSERT( lexer_ != NULL );
+    assert( lexer_ != NULL );
 }
 
 
@@ -672,7 +672,7 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 AddParserActionHandler<Iterator, UserData, Char, Traits, Allocator>::AddParserActionHandler( Parser<Iterator, UserData, Char, Traits, Allocator>* parser )
 : parser_( parser )
 {
-    SWEET_ASSERT( parser_ != NULL );
+    assert( parser_ != NULL );
 }
 
 
@@ -680,7 +680,7 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 const AddParserActionHandler<Iterator, UserData, Char, Traits, Allocator>& 
 AddParserActionHandler<Iterator, UserData, Char, Traits, Allocator>::default_action( ParserActionFunction function ) const
 {
-    SWEET_ASSERT( parser_ != NULL );
+    assert( parser_ != NULL );
     parser_->set_default_action_handler( function );
     return *this;
 }
@@ -690,8 +690,8 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 const AddParserActionHandler<Iterator, UserData, Char, Traits, Allocator>& 
 AddParserActionHandler<Iterator, UserData, Char, Traits, Allocator>::operator()( const char* identifier, ParserActionFunction function ) const
 {
-    SWEET_ASSERT( identifier != NULL );
-    SWEET_ASSERT( parser_ != NULL );
+    assert( identifier != NULL );
+    assert( parser_ != NULL );
     parser_->set_action_handler( identifier, function );
     return *this;
 }
@@ -717,13 +717,13 @@ Parser<Iterator, UserData, Char, Traits, Allocator>::Parser( const ParserStateMa
   accepted_( false ),
   full_( false )
 {
-    SWEET_ASSERT( state_machine_ != NULL );
+    assert( state_machine_ != NULL );
 
     nodes_.reserve( 64 );
     action_handlers_.reserve( state_machine_->actions_end_ - state_machine_->actions_ );
     for ( const ParserAction* action = state_machine_->actions_; action != state_machine_->actions_end_; ++action )
     {
-        SWEET_ASSERT( action != NULL );
+        assert( action != NULL );
         action_handlers_.push_back( ParserActionHandler(action, NULL) );
     }
 }
@@ -733,7 +733,7 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 void 
 Parser<Iterator, UserData, Char, Traits, Allocator>::parse( Iterator start, Iterator finish )
 {
-    SWEET_ASSERT( state_machine_ != NULL );
+    assert( state_machine_ != NULL );
     accepted_ = false;
     full_ = false;
     nodes_.clear();
@@ -763,8 +763,8 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 const UserData&
 Parser<Iterator, UserData, Char, Traits, Allocator>::user_data() const
 {
-    SWEET_ASSERT( accepted() );
-    SWEET_ASSERT( nodes_.size() == 1 );
+    assert( accepted() );
+    assert( nodes_.size() == 1 );
     return nodes_.front().user_data_;
 }
 
@@ -805,8 +805,8 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 void 
 Parser<Iterator, UserData, Char, Traits, Allocator>::set_action_handler( const char* identifier, ParserActionFunction function )
 {
-    SWEET_ASSERT( identifier != NULL );
-    SWEET_ASSERT( function != NULL );
+    assert( identifier != NULL );
+    assert( function != NULL );
     
     typename std::vector<ParserActionHandler>::iterator action_handler = action_handlers_.begin();
     while ( action_handler != action_handlers_.end() && strcmp(action_handler->action_->identifier_, identifier) != 0 )
@@ -825,7 +825,7 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 void 
 Parser<Iterator, UserData, Char, Traits, Allocator>::fire_error( const char* format, ... ) const
 {
-    SWEET_ASSERT( format );
+    assert( format );
 
     va_list args;
     va_start( args, format );
@@ -851,7 +851,7 @@ Parser<Iterator, UserData, Char, Traits, Allocator>::fire_printf( const char* fo
 {
     if ( event_sink_ != NULL )
     {
-        SWEET_ASSERT( format != NULL );
+        assert( format != NULL );
         va_list args;
         va_start( args, format );
         event_sink_->parser_vprintf( format, args );
@@ -887,8 +887,8 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 const ParserTransition* 
 Parser<Iterator, UserData, Char, Traits, Allocator>::find_transition( int symbol, const ParserState* state ) const
 {
-    SWEET_ASSERT( state != NULL );
-    SWEET_ASSERT( state_machine_ != NULL );
+    assert( state != NULL );
+    assert( state_machine_ != NULL );
     const ParserTransition* transition = find_transition_by_symbol( state, symbol );
     return transition;
 }
@@ -898,7 +898,7 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 typename std::vector<ParserNode<UserData, Char, Traits, Allocator> >::iterator 
 Parser<Iterator, UserData, Char, Traits, Allocator>::find_node_to_reduce_to( const ParserProduction* production, std::vector<ParserNode>& nodes )
 {
-    SWEET_ASSERT( production->length_ < int(nodes.size()) );
+    assert( production->length_ < int(nodes.size()) );
     typename std::vector<ParserNode>::reverse_iterator node = nodes.rbegin() + production->length_;
     return node != nodes.rend() ? node.base() : nodes_.begin();
 }
@@ -935,11 +935,11 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 void 
 Parser<Iterator, UserData, Char, Traits, Allocator>::debug_reduce( const ParserProduction* reduced_production, const ParserNode* start, const ParserNode* finish ) const
 {
-    SWEET_ASSERT( start != NULL );
-    SWEET_ASSERT( finish != NULL );
-    SWEET_ASSERT( start <= finish );
-    SWEET_ASSERT( reduced_production != NULL );
-    SWEET_ASSERT( reduced_production->symbol_ != 0 );
+    assert( start != NULL );
+    assert( finish != NULL );
+    assert( start <= finish );
+    assert( reduced_production != NULL );
+    assert( reduced_production->symbol_ != 0 );
 
     if ( debug_enabled_ )
     {
@@ -971,15 +971,15 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 UserData
 Parser<Iterator, UserData, Char, Traits, Allocator>::handle( const ParserProduction* reduced_production, const ParserNode* start, const ParserNode* finish ) const
 {
-    SWEET_ASSERT( start != NULL );
-    SWEET_ASSERT( finish != NULL );
-    SWEET_ASSERT( start <= finish );
-    SWEET_ASSERT( reduced_production != NULL );
+    assert( start != NULL );
+    assert( finish != NULL );
+    assert( start <= finish );
+    assert( reduced_production != NULL );
 
     if ( reduced_production->action_ != NULL )
     {
         int index = reduced_production->action_->index_;
-        SWEET_ASSERT( index >= 0 && index < static_cast<int>(action_handlers_.size()) );            
+        assert( index >= 0 && index < static_cast<int>(action_handlers_.size()) );            
         if ( action_handlers_[index].function_ != NULL )
         {
             return (*action_handlers_[index].function_)( reduced_production->symbol_, start, finish, event_sink_ );
@@ -994,8 +994,8 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 bool
 Parser<Iterator, UserData, Char, Traits, Allocator>::parse( const ParserState* parser_start_state )
 {
-    SWEET_ASSERT( state_machine_ );
-    SWEET_ASSERT( parser_start_state );
+    assert( state_machine_ );
+    assert( parser_start_state );
     
     nodes_.push_back( ParserNode(parser_start_state, 0, UserData()) );
     lexer_.advance();
@@ -1018,7 +1018,7 @@ Parser<Iterator, UserData, Char, Traits, Allocator>::parse( const ParserState* p
                     break;
                     
                 default:
-                    SWEET_ASSERT( false );
+                    assert( false );
                     fire_error( "Unexpected transition type '%d'", transition->type_ );
                     rejected = true;
                     break;
@@ -1038,8 +1038,8 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 void 
 Parser<Iterator, UserData, Char, Traits, Allocator>::shift( const ParserTransition* transition )
 {
-    SWEET_ASSERT( state_machine_ != NULL );
-    SWEET_ASSERT( transition != NULL );
+    assert( state_machine_ != NULL );
+    assert( transition != NULL );
     ParserNode node( transition->state_, lexer_.symbol(), lexer_.lexeme() );
     debug_shift( node );
     nodes_.push_back( node );
@@ -1051,9 +1051,9 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 void 
 Parser<Iterator, UserData, Char, Traits, Allocator>::reduce( const ParserTransition* transition, bool* accepted, bool* /*rejected*/ )
 {
-    SWEET_ASSERT( state_machine_ );
-    SWEET_ASSERT( transition );
-    SWEET_ASSERT( accepted );
+    assert( state_machine_ );
+    assert( transition );
+    assert( accepted );
     
     int symbol = transition->reduced_production_->symbol_;
     if ( symbol != state_machine_->start_symbol_ )
@@ -1067,13 +1067,13 @@ Parser<Iterator, UserData, Char, Traits, Allocator>::reduce( const ParserTransit
         UserData user_data = handle( reduced_production, start, finish );
         nodes_.erase( i, nodes_.end() );
         const ParserTransition* transition = find_transition( symbol, nodes_.back().state_ );
-        SWEET_ASSERT( transition );
+        assert( transition );
         ParserNode node( transition->state_, symbol, user_data );
         nodes_.push_back( node );
     }
     else
     {    
-        SWEET_ASSERT( nodes_.size() == 2 );
+        assert( nodes_.size() == 2 );
         nodes_.erase( nodes_.begin() );
         *accepted = true;
     }              
@@ -1084,10 +1084,10 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 void 
 Parser<Iterator, UserData, Char, Traits, Allocator>::error( bool* accepted, bool* rejected )
 {
-    SWEET_ASSERT( state_machine_ );
-    SWEET_ASSERT( !nodes_.empty() );
-    SWEET_ASSERT( accepted );
-    SWEET_ASSERT( rejected );
+    assert( state_machine_ );
+    assert( !nodes_.empty() );
+    assert( accepted );
+    assert( rejected );
 
     bool handled = false;
     while ( !nodes_.empty() && !handled && !*accepted && !*rejected )
@@ -1108,7 +1108,7 @@ Parser<Iterator, UserData, Char, Traits, Allocator>::error( bool* accepted, bool
                     break;
                     
                 default:
-                    SWEET_ASSERT( false );
+                    assert( false );
                     fire_error( "Unexpected transition type '%d'", transition->type_ );
                     *rejected = true;
                     break;
@@ -1132,7 +1132,7 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 const ParserTransition* 
 Parser<Iterator, UserData, Char, Traits, Allocator>::find_transition_by_symbol( const ParserState* state, int symbol ) const
 {
-    SWEET_ASSERT( state );
+    assert( state );
 
     const ParserTransition* transition = NULL;
     
@@ -1158,7 +1158,7 @@ template <class Iterator, class UserData, class Char, class Traits, class Alloca
 bool 
 Parser<Iterator, UserData, Char, Traits, Allocator>::is_on_symbol( const ParserTransition* transition, int symbol ) const
 {
-    SWEET_ASSERT( transition );
+    assert( transition );
     return transition->symbol_ == symbol;
 }
 

@@ -46,7 +46,7 @@ void TextReader::move_reference_addresses_backward( int n )
 
 const std::string& TextReader::get_type() const
 {
-    SWEET_ASSERT( !m_state.empty() && m_state.top().m_element );
+    assert( !m_state.empty() && m_state.top().m_element );
 
     Attribute* attribute = m_state.top().m_element->find_attribute( get_class_keyword() );
     if ( attribute == NULL )
@@ -59,7 +59,7 @@ const std::string& TextReader::get_type() const
 
 const void* TextReader::get_address() const
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
 
     const void* address = NULL;
     if ( is_object() )
@@ -80,7 +80,7 @@ error::ErrorPolicy& TextReader::error_policy() const
 
 Mode TextReader::get_mode() const
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_mode;
 }
 
@@ -91,13 +91,13 @@ Element* TextReader::get_element()
 
 Element* TextReader::get_current_element()
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_element;
 }
 
 bool TextReader::get_sequence() const
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_sequence;
 }
 
@@ -117,13 +117,13 @@ int TextReader::get_count() const
 // from the sequence because BinaryReader::get_count() behaves quite 
 // differently in that case (see the comment above).
 //
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_element != NULL ? static_cast<int>(m_state.top().m_element->elements().size()) : 0;
 }
 
 void TextReader::begin_object( const char* name, const void* /*address*/, Mode mode, int /*size*/ )
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     
     m_state.push( State(find_element(name), mode) );
     if ( mode == MODE_VALUE )
@@ -148,15 +148,15 @@ void TextReader::end_object()
         m_resolver.end_reference_addresses();
     }
     m_state.pop();
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
 }
 
 bool TextReader::find_next_object( const char* name )
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     
     Element* element = m_state.top().m_element;
-    SWEET_ASSERT( element );
+    assert( element );
 
     if ( !get_sequence() )
     {
@@ -187,21 +187,21 @@ bool TextReader::find_next_object( const char* name )
 
 bool TextReader::is_object() const
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_element != 0;
 }
 
 bool TextReader::is_object_empty() const
 {
-    SWEET_ASSERT( !m_state.empty() );
-    SWEET_ASSERT( m_state.top().m_element );
+    assert( !m_state.empty() );
+    assert( m_state.top().m_element );
     return m_state.top().m_element->attributes().empty();
 }
 
 bool TextReader::is_reference() const
 {
-    SWEET_ASSERT( !m_state.empty() );
-    SWEET_ASSERT( m_state.top().m_element );
+    assert( !m_state.empty() );
+    assert( m_state.top().m_element );
 
     const Element* element = m_state.top().m_element;
     return element->elements().empty() && element->attributes().size() == 1 && element->attributes().front().name() == get_address_keyword();
@@ -209,8 +209,8 @@ bool TextReader::is_reference() const
 
 void TextReader::flag( int value )
 {
-    SWEET_ASSERT( !m_state.empty() );
-    SWEET_ASSERT( m_state.top().m_element );
+    assert( !m_state.empty() );
+    assert( m_state.top().m_element );
     m_state.top().m_element->set_flag( value );
 }
 
@@ -393,8 +393,8 @@ void TextReader::value( const char* name, std::wstring& value )
 
 Element* TextReader::find_element( const std::string& name )
 {
-    SWEET_ASSERT( !m_state.empty() );
-    SWEET_ASSERT( m_state.top().m_element );
+    assert( !m_state.empty() );
+    assert( m_state.top().m_element );
 
     Element* element = NULL;
     if ( !get_sequence() )
@@ -403,8 +403,8 @@ Element* TextReader::find_element( const std::string& name )
     }
     else
     {
-        SWEET_ASSERT( m_state.top().m_position != m_state.top().m_element->elements().end() );
-        SWEET_ASSERT( m_state.top().m_position->name() == name );
+        assert( m_state.top().m_position != m_state.top().m_element->elements().end() );
+        assert( m_state.top().m_position->name() == name );
         element = &(*m_state.top().m_position);
     }
 

@@ -4,7 +4,7 @@
 #include "EnumFilter.hpp"
 #include "Archive.hpp"
 #include "types.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <lua.hpp>
 #include <stdlib.h>
 
@@ -14,7 +14,7 @@ namespace persist
 template <class Archive> 
 void enter( Archive& /*archive*/, lua_State* lua_state )
 {
-    SWEET_ASSERT( lua_state );
+    assert( lua_state );
     lua_pushlightuserdata( lua_state, lua_state );
     lua_newtable( lua_state );
     lua_rawset( lua_state, LUA_REGISTRYINDEX );
@@ -23,7 +23,7 @@ void enter( Archive& /*archive*/, lua_State* lua_state )
 template <class Archive> 
 void exit( Archive& /*archive*/, lua_State* lua_state )
 {
-    SWEET_ASSERT( lua_state );
+    assert( lua_state );
     lua_pushlightuserdata( lua_state, lua_state );
     lua_pushnil( lua_state );
     lua_rawset( lua_state, LUA_REGISTRYINDEX );
@@ -32,14 +32,14 @@ void exit( Archive& /*archive*/, lua_State* lua_state )
 template <class Archive>
 void save_lua_table( Archive& archive, const char* name, lua_State* lua_state, bool metatable )
 {
-    SWEET_ASSERT( archive.is_writing() );
-    SWEET_ASSERT( name );
-    SWEET_ASSERT( lua_state );
+    assert( archive.is_writing() );
+    assert( name );
+    assert( lua_state );
 
     using namespace persist;
 
     int table_index = lua_gettop( lua_state );
-    SWEET_ASSERT( lua_istable(lua_state, table_index) || lua_isnil(lua_state, table_index) );
+    assert( lua_istable(lua_state, table_index) || lua_isnil(lua_state, table_index) );
 
     const void* address = lua_istable( lua_state, table_index ) ? lua_topointer( lua_state, table_index ) : NULL;
 
@@ -169,7 +169,7 @@ void save_lua_table( Archive& archive, const char* name, lua_State* lua_state, b
                         }
 
                         default:
-                            SWEET_ASSERT( false );
+                            assert( false );
                             break;
                     }
                 }
@@ -183,9 +183,9 @@ void save_lua_table( Archive& archive, const char* name, lua_State* lua_state, b
 template <class Archive>
 void load_lua_table( Archive& archive, const char* name, lua_State* lua_state, bool metatable )
 {
-    SWEET_ASSERT( archive.is_reading() );
-    SWEET_ASSERT( name );
-    SWEET_ASSERT( lua_state );
+    assert( archive.is_reading() );
+    assert( name );
+    assert( lua_state );
 
     ObjectGuard<Archive> guard( archive, name, NULL, MODE_VALUE, 1 );
     if ( archive.is_object() )
@@ -194,7 +194,7 @@ void load_lua_table( Archive& archive, const char* name, lua_State* lua_state, b
         lua_pushlightuserdata( lua_state, lua_state );
         lua_rawget( lua_state, LUA_REGISTRYINDEX );
         const int tracking_table = lua_gettop( lua_state );
-        SWEET_ASSERT( lua_istable(lua_state, tracking_table) );
+        assert( lua_istable(lua_state, tracking_table) );
 
         const void* address = archive.get_address();
         lua_pushlightuserdata( lua_state, const_cast<void*>(address) );
@@ -213,7 +213,7 @@ void load_lua_table( Archive& archive, const char* name, lua_State* lua_state, b
             lua_pushlightuserdata( lua_state, const_cast<void*>(address) );
             lua_rawget( lua_state, tracking_table );
             int table = lua_gettop( lua_state );
-            SWEET_ASSERT( lua_istable(lua_state, table) );
+            assert( lua_istable(lua_state, table) );
 
         //
         // Load the metatable if it is present.
@@ -221,7 +221,7 @@ void load_lua_table( Archive& archive, const char* name, lua_State* lua_state, b
             if ( metatable )
             {
                 load_lua_table( archive, "metatable", lua_state, true );
-                SWEET_ASSERT( lua_istable(lua_state, -1) || lua_isnil(lua_state, -1) );
+                assert( lua_istable(lua_state, -1) || lua_isnil(lua_state, -1) );
                 lua_setmetatable( lua_state, table );
             }
 
@@ -234,7 +234,7 @@ void load_lua_table( Archive& archive, const char* name, lua_State* lua_state, b
                 while ( archive.find_next_object("attribute") )
                 {
                     ObjectGuard<Archive> attribute_guard( archive, "attribute", NULL, MODE_VALUE );
-                    SWEET_ASSERT( archive.is_object() );
+                    assert( archive.is_object() );
 
                     std::string key;
                     archive.value( "key", key );
@@ -321,7 +321,7 @@ struct PersistLuaTable
 {
     static void persist( Archive& /*archive*/, const char* /*name*/, lua_State* /*lua_state*/, bool /*metatable*/ )
     {
-        SWEET_ASSERT( false );
+        assert( false );
     }
 };
 

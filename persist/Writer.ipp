@@ -7,9 +7,9 @@
 
 #include "Writer.hpp"
 #include "WriterType.ipp"
+#include "assert.hpp"
 #include "functions.ipp"
 #include <error/ErrorPolicy.hpp>
-#include <assert/assert.hpp>
 
 namespace persist
 {
@@ -30,7 +30,7 @@ persist::Writer<DerivedArchive>::Writer( ArchiveType type, error::ErrorPolicy& e
 , m_types()
 , m_tracked_addresses()
 {
-    SWEET_ASSERT( type != ARCHIVE_READER );
+    assert( type != ARCHIVE_READER );
 }
 
 template <class DerivedArchive>
@@ -91,7 +91,7 @@ void Writer<DerivedArchive>::enter( const char* format, int version, Type& /*obj
         DerivedArchive& archive = static_cast<DerivedArchive&>( *this );
         if ( archive.get_mode() == MODE_VALUE )
         {
-            SWEET_ASSERT( format );
+            assert( format );
             std::string format_string( format );
             archive.value( get_format_keyword().c_str(), format_string );
 

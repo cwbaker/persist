@@ -3,7 +3,7 @@
 #include "ObjectGuard.hpp"
 #include "objects.ipp"
 #include <sweet/pointer/ptr.hpp>
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -38,7 +38,7 @@ void save( Archive& archive, int mode, const char* name, ptr<Type>& object )
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }
@@ -47,7 +47,7 @@ void save( Archive& archive, int mode, const char* name, ptr<Type>& object )
 template <class Archive, class Type>
 void load( Archive& archive, int mode, const char* name, ptr<Type>& object )
 {
-    SWEET_ASSERT( object.get() == NULL );
+    assert( object.get() == NULL );
 
     ObjectGuard<Archive> guard( archive, name, 0, mode );
     switch ( mode )
@@ -61,7 +61,7 @@ void load( Archive& archive, int mode, const char* name, ptr<Type>& object )
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }
@@ -85,7 +85,7 @@ void resolve( Archive& archive, int mode, ptr<Type>& object )
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }
@@ -104,7 +104,7 @@ struct resolver<pointer::weak_ptr<Type> >
 template <class Archive, class Type>
 void save( Archive& archive, int mode, const char* name, pointer::weak_ptr<Type>& object )
 {
-    SWEET_ASSERT( mode == MODE_REFERENCE );
+    assert( mode == MODE_REFERENCE );
     (void) mode;
 
     ptr<Type> locked_object = object.lock();
@@ -121,8 +121,8 @@ void save( Archive& archive, int mode, const char* name, pointer::weak_ptr<Type>
 template <class Archive, class Type>
 void load( Archive& archive, int mode, const char* name, pointer::weak_ptr<Type>& object )
 {
-    SWEET_ASSERT( mode == MODE_REFERENCE );
-    SWEET_ASSERT( object.lock() == ptr<Type>() );
+    assert( mode == MODE_REFERENCE );
+    assert( object.lock() == ptr<Type>() );
     (void) mode;
 
     ObjectGuard<Archive> guard( archive, name, 0, MODE_REFERENCE );
@@ -132,7 +132,7 @@ void load( Archive& archive, int mode, const char* name, pointer::weak_ptr<Type>
 template <class Archive, class Type>
 void resolve( Archive& archive, int mode, pointer::weak_ptr<Type>& object )
 {
-    SWEET_ASSERT( mode == MODE_REFERENCE );
+    assert( mode == MODE_REFERENCE );
     (void) mode;
     archive.reference( 0, reinterpret_cast<void**>(&object), &resolver<pointer::weak_ptr<Type> >::resolve );
 }
