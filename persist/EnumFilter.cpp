@@ -4,8 +4,8 @@
 //
 
 #include "EnumFilter.hpp"
+#include "PersistError.hpp"
 #include "types.hpp"
-#include <error/ErrorPolicy.hpp>
 #include "assert.hpp"
 #include <stdlib.h>
 #include <stdio.h>
@@ -36,7 +36,7 @@ EnumFilter::EnumFilter( const Conversion* conversions )
 {
 }
 
-int EnumFilter::to_memory( const std::string& value, error::ErrorPolicy& error_policy ) const
+int EnumFilter::to_memory( const std::string& value ) const
 {
     const Conversion* conversion = m_conversions;
     while ( conversion->m_name != 0 && value != conversion->m_name )
@@ -46,8 +46,8 @@ int EnumFilter::to_memory( const std::string& value, error::ErrorPolicy& error_p
 
     if ( conversion->m_name == 0 )
     {
-        error_policy.error( value.empty() || isalpha(value[0]), "Unable to find enumerated value for '%s'", value.empty() ? "" : value.c_str() );
-        return !value.empty() ? atoi( value.c_str() ) : 0;
+        throw PersistError( "Unable to find enumerated value for '%s'", value.empty() ? "" : value.c_str() );
+        return 0;
     }
 
     return conversion->m_value;

@@ -1,4 +1,11 @@
 
+local paths = {
+    package.path;
+    root( 'lalr/src/lalr/?.lua' );
+    root( 'lalr/src/lalr/?/init.lua' );
+};
+package.path = table.concat( paths, ";" );
+
 variant = lower( variant or 'debug' );
 
 local cc = require 'forge.cc' {
@@ -9,6 +16,7 @@ local cc = require 'forge.cc' {
     obj = root( ('%s/obj'):format(variant) );
     include_directories = {
         root();
+        root( 'lalr/src' );
         root( 'unittest-cpp' );
     };
     library_directories = {
@@ -46,10 +54,13 @@ local cc = require 'forge.cc' {
     warnings_as_errors = true;
 };
 
+cc:install( require('forge.lalr') );
+
 cc:all {
     'persist/persist_examples/all';
     'persist/persist_test/all';
 };
 
+buildfile 'lalr/lalr.forge';
 buildfile 'persist.forge';
 buildfile 'unittest-cpp/unittest-cpp.forge';

@@ -2,7 +2,6 @@
 
 #include "Archive.hpp"
 #include "WriterType.hpp"
-#include <error/ErrorPolicy.hpp>
 #include <set>
 
 namespace error
@@ -28,13 +27,12 @@ public:
     typedef ArchiveTypeWriter archive_type;
 
 private:
-    error::ErrorPolicy& error_policy_; ///< The ErrorPolicy used to report errors by this Writer.
     std::set<WriterType<DerivedArchive> > m_types; ///< The types that have been declared for this archive.
     std::set<const void*> m_tracked_addresses; ///< The addresses of the objects that have been tracked by this Writer.
 
 public:
-    Writer( error::ErrorPolicy& error_policy );
-    Writer( ArchiveType type, error::ErrorPolicy& error_policy );
+    Writer();
+    Writer( ArchiveType type);
     Writer( const Writer<DerivedArchive>& writer );
     void reset();
     void track( const void* address );

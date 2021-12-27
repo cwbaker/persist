@@ -6,13 +6,6 @@
 #include <stack>
 #include <ctime>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -40,15 +33,13 @@ class TextWriter : public Writer<TextWriter>
         }        
     };
 
-    error::ErrorPolicy& error_policy_;
     Element m_element; ///< The root Element in the tree that is being written to.
     std::stack<State> m_state; ///< The State stack.
 
 public:
-    TextWriter( error::ErrorPolicy& error_policy );
+    TextWriter();
     TextWriter( const TextWriter& writer );
 
-    error::ErrorPolicy& error_policy() const;
     Mode get_mode() const;
     const Element* get_element() const;
     Element* get_current_element();

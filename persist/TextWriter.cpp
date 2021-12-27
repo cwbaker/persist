@@ -11,9 +11,8 @@
 
 using namespace persist;
 
-TextWriter::TextWriter( error::ErrorPolicy& error_policy )
-: Writer<TextWriter>( error_policy )
-, error_policy_( error_policy )
+TextWriter::TextWriter()
+: Writer<TextWriter>()
 , m_element()
 , m_state()
 {
@@ -25,11 +24,6 @@ TextWriter::TextWriter( const TextWriter& writer )
 , m_element()
 , m_state()
 {
-}
-
-error::ErrorPolicy& TextWriter::error_policy() const
-{
-    return error_policy_;
 }
 
 Mode TextWriter::get_mode() const
