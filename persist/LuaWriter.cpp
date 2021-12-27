@@ -6,7 +6,7 @@
 #include "LuaWriter.hpp"
 #include "Writer.ipp"
 #include "functions.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <fstream>
 
 using namespace persist;
@@ -45,7 +45,7 @@ void LuaWriter::write_element( std::ostream& stream, const Element* element, boo
     //  Decide whether it is valid to write out empty Element and Attribute
     //  trees or whether an exception should be thrown here.
     //
-        SWEET_ASSERT( false );
+        assert( false );
         return;
     }
 
@@ -142,7 +142,7 @@ void LuaWriter::write_element( std::ostream& stream, const Element* element, boo
             }
 
             default:
-                SWEET_ASSERT( false );
+                assert( false );
                 stream << "nil";
                 break;
         }

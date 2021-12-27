@@ -8,7 +8,7 @@
 #include "void_pointers.ipp"
 #include "strings.ipp"
 #include "functions.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <fstream>
 #include <string.h>
 
@@ -18,7 +18,7 @@ namespace persist
 template <class Char, class Type> 
 void BinaryReader::read( const Char* filename, const char* name, Type& object )
 {
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
     std::ifstream stream( filename, std::ios::binary );
     read( stream, name, object );
@@ -27,7 +27,7 @@ void BinaryReader::read( const Char* filename, const char* name, Type& object )
 template <class Char, class Type> 
 void BinaryReader::read( const Char* filename, const char* name, const char* child_name, Type& container )
 {
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
     std::ifstream stream( filename, std::ios::binary );
     read( stream, name, child_name, container );
@@ -36,7 +36,7 @@ void BinaryReader::read( const Char* filename, const char* name, const char* chi
 template <class Char, class Type, size_t LENGTH> 
 void BinaryReader::read( const Char* filename, const char* name, const char* child_name, Type (& values)[LENGTH] )
 {
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
     std::ifstream stream( filename, std::ios::binary );
     read( stream, name, child_name, values );
@@ -49,7 +49,7 @@ void BinaryReader::read( std::istream& istream, const char* /*name*/, Type& obje
     m_resolver.set_contexts( get_contexts() );
 
     reset();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(MODE_VALUE, 0, 0, false) );
     m_istream = &istream;
     istream.exceptions( std::istream::badbit | std::istream::failbit );
@@ -58,7 +58,7 @@ void BinaryReader::read( std::istream& istream, const char* /*name*/, Type& obje
     
     m_istream = NULL;
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_resolver.process( version(), object, error_policy_ );
 }
 
@@ -69,7 +69,7 @@ void BinaryReader::read( std::istream& istream, const char* /*name*/, const char
     m_resolver.set_contexts( get_contexts() );
 
     reset();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(MODE_VALUE, 0, 0, false) );
     m_istream = &istream;
     istream.exceptions( std::istream::badbit | std::istream::failbit );
@@ -78,7 +78,7 @@ void BinaryReader::read( std::istream& istream, const char* /*name*/, const char
 
     m_istream = NULL;
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_resolver.process( version(), container );
 }
 
@@ -89,7 +89,7 @@ void BinaryReader::read( std::istream& istream, const char* /*name*/, const char
     m_resolver.set_contexts( get_contexts() );
 
     reset();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_state.push( State(MODE_VALUE, 0, 0, false) );
     m_istream = &istream;
     istream.exceptions( std::istream::badbit | std::istream::failbit );
@@ -98,7 +98,7 @@ void BinaryReader::read( std::istream& istream, const char* /*name*/, const char
 
     m_istream = NULL;
     m_state.pop();
-    SWEET_ASSERT( m_state.empty() );
+    assert( m_state.empty() );
     m_resolver.process( version(), values, LENGTH );
 }
 
@@ -155,7 +155,7 @@ void BinaryReader::value( const char* /*name*/, std::string& value, const Filter
 template <class Type, class Filter> 
 void BinaryReader::value( const char* /*name*/, Type& value, const Filter& /*filter*/ )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 

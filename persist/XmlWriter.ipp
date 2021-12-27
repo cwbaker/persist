@@ -14,7 +14,7 @@
 #include "void_pointers.ipp"
 #include "strings.ipp"
 #include "functions.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -22,7 +22,7 @@ namespace persist
 template <class Char, class Type> 
 void XmlWriter::write( const Char* filename, const char* name, Type& object )
 {
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
     TextWriter::write( name, object );
     write( widen(filename).c_str(), get_element() );
@@ -31,7 +31,7 @@ void XmlWriter::write( const Char* filename, const char* name, Type& object )
 template <class Char, class Type> 
 void XmlWriter::write( const Char* filename, const char* name, const char* child_name, Type& container )
 {
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
     TextWriter::write( name, child_name, container );
     write( widen(filename).c_str(), get_element() );
@@ -40,7 +40,7 @@ void XmlWriter::write( const Char* filename, const char* name, const char* child
 template <class Char, class Type, size_t LENGTH> 
 void XmlWriter::write( const Char* filename, const char* name, const char* child_name, Type (& values)[LENGTH] )
 {
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
     TextWriter::write( name, child_name, values );
     write( widen(filename).c_str(), get_element() );

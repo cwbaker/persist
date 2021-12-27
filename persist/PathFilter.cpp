@@ -5,7 +5,7 @@
 
 #include "PathFilter.hpp"
 #include "functions.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 using namespace persist;
 
@@ -36,7 +36,7 @@ std::wstring PathFilter::to_memory( const std::wstring& value ) const
 
 std::string PathFilter::to_archive( const std::string& value ) const
 {
-    SWEET_ASSERT( value.empty() || std::filesystem::path(value).is_absolute() );
+    assert( value.empty() || std::filesystem::path(value).is_absolute() );
     
     std::filesystem::path relative_path;
     if ( !value.empty() )
@@ -48,7 +48,7 @@ std::string PathFilter::to_archive( const std::string& value ) const
 
 std::wstring PathFilter::to_archive( const std::wstring& value ) const
 {
-    SWEET_ASSERT( value.empty() || std::filesystem::path(value).is_absolute() );
+    assert( value.empty() || std::filesystem::path(value).is_absolute() );
  
     std::filesystem::path relative_path;
     if ( !value.empty() )

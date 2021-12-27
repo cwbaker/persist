@@ -117,9 +117,9 @@ const std::string& Archive::get_version_keyword() const
 
 void Archive::set_class_keyword( const char* class_keyword )
 {
-    SWEET_ASSERT( class_keyword );   
+    assert( class_keyword );   
     m_class_keyword = class_keyword;
-    SWEET_ASSERT( !m_class_keyword.empty() );
+    assert( !m_class_keyword.empty() );
 }
 
 const std::string& Archive::get_class_keyword() const
@@ -129,9 +129,9 @@ const std::string& Archive::get_class_keyword() const
 
 void Archive::set_address_keyword( const char* address_keyword )
 {
-    SWEET_ASSERT( address_keyword );
+    assert( address_keyword );
     m_address_keyword = address_keyword;
-    SWEET_ASSERT( !m_address_keyword.empty() );
+    assert( !m_address_keyword.empty() );
 }
 
 const std::string& Archive::get_address_keyword() const

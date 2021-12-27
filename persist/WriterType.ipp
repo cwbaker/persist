@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -34,7 +34,7 @@ bool WriterType<Archive>::is_polymorphic() const
 template <class Archive>
 void WriterType<Archive>::persist( Archive& archive, void* object ) const
 {
-    SWEET_ASSERT( m_persist );
+    assert( m_persist );
     (*m_persist)( archive, object );
 }
 

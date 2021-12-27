@@ -4,7 +4,7 @@
 //
 
 #include "functions.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <vector>
 
 using namespace persist;
@@ -34,7 +34,7 @@ std::wstring widen( const std::string& narrow_string, const std::locale& locale 
 
 std::wstring widen( const wchar_t* wide_string, const std::locale& /*locale*/ )
 {
-    SWEET_ASSERT( wide_string );
+    assert( wide_string );
     return std::wstring( wide_string );
 }
 

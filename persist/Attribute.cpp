@@ -4,7 +4,7 @@
 //
 
 #include "Attribute.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include <sstream>
 #include <stddef.h>
 #include <string.h>
@@ -133,7 +133,7 @@ const void* Attribute::address() const
         }
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 
@@ -171,7 +171,7 @@ bool Attribute::boolean() const
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 
@@ -208,7 +208,7 @@ int Attribute::integer() const
         }
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 
@@ -234,7 +234,7 @@ unsigned int Attribute::unsigned_integer() const
             break;
 
         case TYPE_REAL:
-            SWEET_ASSERT( m_value.m_real >= 0.0 );
+            assert( m_value.m_real >= 0.0 );
             value = static_cast<unsigned int>( m_value.m_real );
             break;
 
@@ -246,7 +246,7 @@ unsigned int Attribute::unsigned_integer() const
         }
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 
@@ -283,7 +283,7 @@ double Attribute::real() const
         }
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 
@@ -330,7 +330,7 @@ const std::string& Attribute::string() const
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 
@@ -339,7 +339,7 @@ const std::string& Attribute::string() const
 
 void Attribute::string( std::string* value ) const
 {
-    SWEET_ASSERT( value );
+    assert( value );
 
     switch ( m_type )
     {
@@ -384,7 +384,7 @@ void Attribute::string( std::string* value ) const
             break;
 
         default:
-            SWEET_ASSERT( false );
+            assert( false );
             break;
     }
 }

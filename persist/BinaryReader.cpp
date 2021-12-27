@@ -57,19 +57,19 @@ const std::string& BinaryReader::get_type()
 
 const void* BinaryReader::get_address()
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_address;
 }
 
 Mode BinaryReader::get_mode() const
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_mode;
 }
 
 bool BinaryReader::get_sequence() const
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_sequence;
 }
 
@@ -81,14 +81,14 @@ int BinaryReader::get_count() const
     // number of elements to be read in for a std::vector before any of the
     // objects have been read in both cases this will be the total number of
     // objects to read in the sequence.
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_size;
 }
 
 void BinaryReader::begin_object( const char* /*name*/, const void* /*ignored_address*/, Mode mode, int /*ignored_size*/ )
 {
-    SWEET_ASSERT( m_istream );
-    SWEET_ASSERT( mode == MODE_VALUE || mode == MODE_REFERENCE );
+    assert( m_istream );
+    assert( mode == MODE_VALUE || mode == MODE_REFERENCE );
     
     int size = 0;
     m_istream->read( reinterpret_cast<char*>(&size), sizeof(size) );
@@ -112,12 +112,12 @@ void BinaryReader::end_object()
 
     m_type.clear();
     m_state.pop();
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
 }
 
 bool BinaryReader::find_next_object( const char* /*name*/ )
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
 
     if ( m_state.top().m_size > 0 )
     {
@@ -132,7 +132,7 @@ bool BinaryReader::find_next_object( const char* /*name*/ )
 
 bool BinaryReader::is_object() const
 {
-    SWEET_ASSERT( !m_state.empty() );
+    assert( !m_state.empty() );
     return m_state.top().m_size > 0;
 }
 
@@ -152,93 +152,93 @@ void BinaryReader::flag( int /*value*/ )
 
 void BinaryReader::value( const char* /*name*/, bool& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, char& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, signed char& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, unsigned char& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, wchar_t& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, short& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, unsigned short& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, int& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, unsigned int& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, long& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, unsigned long& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 #if defined(_MSC_VER)
 void BinaryReader::value( const char* /*name*/, std::time_t& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 #endif
 
 void BinaryReader::value( const char* /*name*/, float& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, double& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
     m_istream->read( reinterpret_cast<char*>(&value), sizeof(value) );
 }
 
 void BinaryReader::value( const char* /*name*/, wchar_t* value, size_t max )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
 
     size_t length = 0;
     m_istream->read( reinterpret_cast<char*>(&length), sizeof(length) );
@@ -253,7 +253,7 @@ void BinaryReader::value( const char* /*name*/, wchar_t* value, size_t max )
 
 void BinaryReader::value( const char* /*name*/, std::wstring& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
 
     size_t length = 0;
     m_istream->read( reinterpret_cast<char*>(&length), sizeof(length) );
@@ -278,7 +278,7 @@ void BinaryReader::value( const char* /*name*/, std::wstring& value )
 
 void BinaryReader::value( const char* /*name*/, char* value, size_t max )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
 
     size_t length = 0;
     m_istream->read( reinterpret_cast<char*>(&length), sizeof(length) );
@@ -293,7 +293,7 @@ void BinaryReader::value( const char* /*name*/, char* value, size_t max )
 
 void BinaryReader::value( const char* /*name*/, std::string& value )
 {
-    SWEET_ASSERT( m_istream );
+    assert( m_istream );
 
     size_t length = 0;
     m_istream->read( reinterpret_cast<char*>(&length), sizeof(length) );

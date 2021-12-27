@@ -13,7 +13,7 @@
 #include "void_pointers.ipp"
 #include "strings.ipp"
 #include "functions.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 /**
 // Write an object to a JSON archive.
@@ -35,7 +35,7 @@ persist::JsonWriter::write( const Char* filename, const char* name, Type& object
 // Set the directory that this archive is being written to in the base
 // Writer class so that it can be retrieved later for path filtering.
 //
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
 
 //
@@ -70,7 +70,7 @@ persist::JsonWriter::write( const Char* filename, const char* name, const char* 
 // Set the directory that this archive is being written to in the base
 // Writer class so that it can be retrieved later for path filtering.
 //
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
 
 //
@@ -105,7 +105,7 @@ persist::JsonWriter::write( const Char* filename, const char* name, const char* 
 // Set the directory that this archive is being written to in the base
 // Writer class so that it can be retrieved later for path filtering.
 //
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
 
 //

@@ -4,7 +4,7 @@
 //
 
 #include "Ucs2CharFilter.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 using namespace persist;
 
@@ -58,14 +58,14 @@ void Ucs2CharFilter::to_archive( const wchar_t* src_begin, const wchar_t* src_en
         }
         else if ( *src < 0x800 )
         {
-            SWEET_ASSERT( dest + 1 < dest_end );
+            assert( dest + 1 < dest_end );
             *(dest + 0) = static_cast<char>( 0xc0 | ((*src >> 6) & 0x1f) );
             *(dest + 1) = static_cast<char>( 0x80 | ((*src >> 0) & 0x3f) );
             dest += 2;            
         }
         else
         {
-            SWEET_ASSERT( dest + 2 < dest_end );
+            assert( dest + 2 < dest_end );
             *(dest + 0) = static_cast<char>( 0xe0 | ((*src >> 12) & 0x0f) );
             *(dest + 1) = static_cast<char>( 0x80 | ((*src >>  6) & 0x3f) );
             *(dest + 2) = static_cast<char>( 0x80 | ((*src >>  0) & 0x3f) );

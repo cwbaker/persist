@@ -2,7 +2,7 @@
 
 #include "ObjectGuard.ipp"
 #include "objects.ipp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -24,7 +24,7 @@ void save_stl_sequence( Archive& archive, int mode, const char* name, const char
 template <class Archive, class CONTAINER>
 void load_stl_sequence( Archive& archive, int mode, const char* name, const char* child_name, CONTAINER& container )
 {
-    SWEET_ASSERT( container.empty() );
+    assert( container.empty() );
 
     ObjectGuard<Archive> guard( archive, name, 0, MODE_VALUE );
     if ( archive.is_object() )

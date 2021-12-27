@@ -14,7 +14,7 @@
 #include "void_pointers.ipp"
 #include "strings.ipp"
 #include "functions.hpp"
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -41,13 +41,13 @@ void XmlReader::read( const Char* filename, const char* name, Type& object )
 // Set the directory that this archive is being written to in the base
 // Reader class so that it can be retrieved later for path filtering.
 //
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
 
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() );
+    assert( get_element() );
     get_element()->clear();
 
 //
@@ -81,13 +81,13 @@ XmlReader::read( const Char* filename, const char* name, const char* child_name,
 // Set the directory that this archive is being written to in the base
 // Reader class so that it can be retrieved later for path filtering.
 //
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
 
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //
@@ -121,13 +121,13 @@ XmlReader::read( const Char* filename, const char* name, const char* child_name,
 // Set the directory that this archive is being written to in the base
 // Reader class so that it can be retrieved later for path filtering.
 //
-    SWEET_ASSERT( filename );
+    assert( filename );
     set_filename( widen(filename) );
 
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //
@@ -157,7 +157,7 @@ XmlReader::read( std::istream& stream, const char* name, Type& object )
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //
@@ -190,7 +190,7 @@ XmlReader::read( std::istream& stream, const char* name, const char* child_name,
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //
@@ -223,7 +223,7 @@ XmlReader::read( std::istream& stream, const char* name, const char* child_name,
 //
 // Clear out the Element and Attribute tree.
 //
-    SWEET_ASSERT( get_element() != NULL );
+    assert( get_element() != NULL );
     get_element()->clear();
 
 //

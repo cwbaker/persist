@@ -4,7 +4,7 @@
 //
 
 #include <sweet/persist/persist.hpp>
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 #include "Item.hpp"
 
 using namespace persist;
@@ -121,13 +121,13 @@ Item::operator size_t() const
 
 void persist::intrusive_ptr_add_ref( Item* item )
 {
-    SWEET_ASSERT( item );
+    assert( item );
     ++item->m_references;
 }
 
 void persist::intrusive_ptr_release( Item* item )
 {
-    SWEET_ASSERT( item );
+    assert( item );
     --item->m_references;
     if ( item->m_references <= 0 )
     {

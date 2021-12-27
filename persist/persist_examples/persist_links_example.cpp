@@ -56,7 +56,7 @@ class TextureCache
         {
             if ( texture )
             {
-                SWEET_ASSERT( textures_.find(texture->filename()) != textures_.end() );
+                assert( textures_.find(texture->filename()) != textures_.end() );
                 map<string, Texture*>::iterator i = textures_.find( texture->filename() );
                 textures_.erase( i );
                 delete texture;
@@ -78,7 +78,7 @@ void save( Archive& archive, int mode, const char* name, Texture* texture )
 template <class Archive> 
 void load( Archive& archive, int mode, const char* name, Texture*& texture )
 {
-    SWEET_ASSERT( texture == NULL );
+    assert( texture == NULL );
 
     ObjectGuard<Archive> guard( archive, name, NULL, mode );
     if ( archive.is_object() )
@@ -87,7 +87,7 @@ void load( Archive& archive, int mode, const char* name, Texture*& texture )
         archive.value( "filename", filename, path_filter(archive.get_path()) );
 
         TextureCache* texture_manager = reinterpret_cast<TextureCache*>( archive.get_context(typeid(TextureCache)) );
-        SWEET_ASSERT( texture_manager );
+        assert( texture_manager );
         texture = texture_manager->texture( filename );
     }
 }

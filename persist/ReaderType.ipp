@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <assert/assert.hpp>
+#include <persist/assert.hpp>
 
 namespace persist
 {
@@ -29,14 +29,14 @@ bool ReaderType<Archive>::is_polymorphic() const
 template <class Archive>
 void* ReaderType<Archive>::create() const
 {
-    SWEET_ASSERT( m_create );
+    assert( m_create );
     return (*m_create)();
 }
 
 template <class Archive>
 void ReaderType<Archive>::persist( Archive& archive, void* object ) const
 {
-    SWEET_ASSERT( m_persist );
+    assert( m_persist );
     (*m_persist)( archive, object );
 }
 
