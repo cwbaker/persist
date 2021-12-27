@@ -1,6 +1,9 @@
 #pragma once
 
-#include <persist/assert.hpp>
+#include "ObjectGuard.hpp"
+#include "assert.hpp"
+#include "types.hpp"
+#include "objects.ipp"
 #include <memory>
 
 namespace persist
@@ -31,7 +34,7 @@ void
 save( Archive& archive, int mode, const char* name, std::unique_ptr<Type>& object )
 {
     assert( mode == MODE_VALUE );
-    ObjectGuard<Archive> guard( archive, name, object.get(), mode, object.get() != nullptr ? 1: 0 );
+    ObjectGuard<Archive> guard( archive, name, object.get(), mode, object.get() != nullptr ? 1 : 0 );
     if ( object.get() )
     {
         archive.persist( typeid(*object.get()), archive, object.get() );
