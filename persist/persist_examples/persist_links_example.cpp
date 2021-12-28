@@ -1,5 +1,6 @@
 
-#include <sweet/persist/persist.hpp>
+#include <persist/persist.hpp>
+#include <string>
 #include <map>
 
 using std::map;

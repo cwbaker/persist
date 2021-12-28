@@ -10,29 +10,27 @@
 
 using namespace persist;
 
-LuaReader::LuaReader( error::ErrorPolicy& error_policy )
-: TextReader( error_policy )
-, error_policy_( error_policy )
+LuaReader::LuaReader()
+: TextReader()
 {
 }
 
 LuaReader::LuaReader( const TextReader& reader )
 : TextReader( reader )
-, error_policy_( reader.error_policy() )
 {
 }
 
 void LuaReader::parse( const char* filename, Element* element )
 {
-    LuaParser parser( filename, element, &error_policy_ );
+    LuaParser parser( filename, element );
 }
 
 void LuaReader::parse( const wchar_t* filename, Element* element )
 {
-    LuaParser parser( filename, element, &error_policy_ );
+    LuaParser parser( filename, element );
 }
 
 void LuaReader::parse( std::istream& stream, Element* element )
 {
-    LuaParser parser( stream, element, &error_policy_ );
+    LuaParser parser( stream, element );
 }

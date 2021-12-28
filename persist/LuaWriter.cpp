@@ -11,15 +11,13 @@
 
 using namespace persist;
 
-LuaWriter::LuaWriter( error::ErrorPolicy& error_policy )
-: TextWriter( error_policy )
-, error_policy_( error_policy )
+LuaWriter::LuaWriter()
+: TextWriter()
 {
 }
 
 LuaWriter::LuaWriter( const TextWriter& writer )
 : TextWriter( writer )
-, error_policy_( writer.error_policy() )
 {
 }
 

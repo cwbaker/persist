@@ -10,9 +10,8 @@ using std::set;
 using std::list;
 using namespace persist;
 
-Resolver::Resolver( error::ErrorPolicy& error_policy )
-: Writer<Resolver>( ARCHIVE_RESOLVER, error_policy )
-, error_policy_( error_policy )
+Resolver::Resolver()
+: Writer<Resolver>( ARCHIVE_RESOLVER )
 , m_object( nullptr )
 , m_state()
 , m_current_object()
@@ -24,7 +23,6 @@ Resolver::Resolver( error::ErrorPolicy& error_policy )
 
 Resolver::Resolver( const Resolver& resolver )
 : Writer<Resolver>( resolver )
-, error_policy_( resolver.error_policy_ )
 , m_object( nullptr )
 , m_state()
 , m_current_object()

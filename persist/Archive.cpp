@@ -4,7 +4,7 @@
 //
 
 #include "Archive.hpp"
-#include <assert/assert.hpp>
+#include "assert.hpp"
 #include <filesystem>
 
 using std::set;

@@ -10,29 +10,27 @@
 
 using namespace persist;
 
-XmlReader::XmlReader( error::ErrorPolicy& error_policy )
-: TextReader( error_policy )
-, error_policy_( error_policy )
+XmlReader::XmlReader()
+: TextReader()
 {
 }
 
 XmlReader::XmlReader( const TextReader& reader )
 : TextReader( reader )
-, error_policy_( reader.error_policy() )
 {
 }
 
 void XmlReader::parse( const char* filename, Element* element )
 {
-    XmlParser parser( filename, element, &error_policy_ );
+    XmlParser parser( filename, element );
 }
 
 void XmlReader::parse( const wchar_t* filename, Element* element )
 {
-    XmlParser parser( filename, element, &error_policy_ );
+    XmlParser parser( filename, element );
 }
 
 void XmlReader::parse( std::istream& stream, Element* element )
 {
-    XmlParser parser( stream, element, &error_policy_ );
+    XmlParser parser( stream, element );
 }

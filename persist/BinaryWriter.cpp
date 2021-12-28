@@ -11,9 +11,8 @@
 
 using namespace persist;
 
-BinaryWriter::BinaryWriter( error::ErrorPolicy& error_policy )
-: Writer<BinaryWriter>( error_policy )
-, error_policy_( error_policy )
+BinaryWriter::BinaryWriter()
+: Writer<BinaryWriter>()
 , m_state()
 , m_ostream( nullptr )
 {
@@ -21,7 +20,6 @@ BinaryWriter::BinaryWriter( error::ErrorPolicy& error_policy )
 
 BinaryWriter::BinaryWriter( const BinaryWriter& writer )
 : Writer<BinaryWriter>( writer )
-, error_policy_( writer.error_policy_ )
 , m_state()
 , m_ostream( nullptr )
 {

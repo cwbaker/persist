@@ -28,7 +28,7 @@ void TextReader::read( const char* name, Type& object )
     m_state.pop();
     assert( m_state.empty() );
 
-    m_resolver.process( version(), object, error_policy_ );
+    m_resolver.process( version(), object );
 }
 
 template <class Type>
@@ -44,7 +44,7 @@ void TextReader::read( const char* name, const char* child_name, Type& container
     m_state.pop();
     assert( m_state.empty() );
 
-    m_resolver.process( version(), container, error_policy_ );
+    m_resolver.process( version(), container );
 }
 
 template <class Type, size_t LENGTH>
@@ -61,7 +61,7 @@ void TextReader::read( const char* name, const char* child_name, Type (&values)[
     m_state.pop();
     assert( m_state.empty() );
 
-    m_resolver.process( version(), values, LENGTH, error_policy_ );
+    m_resolver.process( version(), values, LENGTH );
 }
 
 template <class Type> 
@@ -129,7 +129,7 @@ void TextReader::value( const char* name, Type& value, const Filter& filter )
     Attribute* attribute = get_current_element()->find_attribute( name );
     if ( attribute )
     {
-        value = static_cast<Type>( filter.to_memory(attribute->string(), error_policy_) );
+        value = static_cast<Type>( filter.to_memory(attribute->string()) );
     }
 }
 

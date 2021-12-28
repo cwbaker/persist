@@ -59,7 +59,7 @@ void BinaryReader::read( std::istream& istream, const char* /*name*/, Type& obje
     m_istream = NULL;
     m_state.pop();
     assert( m_state.empty() );
-    m_resolver.process( version(), object, error_policy_ );
+    m_resolver.process( version(), object );
 }
 
 template <class Type>

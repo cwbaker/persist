@@ -17,10 +17,8 @@ namespace persist
 */
 class XmlReader : public TextReader
 {
-    error::ErrorPolicy& error_policy_;
-
 public:
-    XmlReader( error::ErrorPolicy& error_policy );
+    XmlReader();
     XmlReader( const TextReader& reader );
 
     template <class Char, class Type> void read( const Char* filename, const char* name, Type& object );

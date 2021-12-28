@@ -5,13 +5,6 @@
 #include <stack>
 #include <ctime>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -30,12 +23,11 @@ class BinaryWriter : public Writer<BinaryWriter>
         }
     };
 
-    error::ErrorPolicy& error_policy_;
     std::stack<State> m_state; ///< The state stack.
     std::ostream* m_ostream; ///< The output stream being written to.
 
     public:
-        BinaryWriter( error::ErrorPolicy& error_policy );
+        BinaryWriter();
         BinaryWriter( const BinaryWriter& writer );
 
         Mode get_mode() const;

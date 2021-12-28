@@ -1,5 +1,5 @@
 
-buildfile 'persist_examples/persist_examples.forge';
+-- buildfile 'persist_examples/persist_examples.forge';
 buildfile 'persist_test/persist_test.forge';
 
 for _, cc in toolsets('cc.*') do
@@ -9,6 +9,7 @@ for _, cc in toolsets('cc.*') do
 
     cc:all {
         cc:StaticLibrary '${lib}/persist_${platform}_${architecture}' {
+            '${lib}/lalr_${platform}_${architecture}';
             cc:Cxx '${obj}/%1' {
                 defines = { 
                     'BOOST_ALL_NO_LIB'; -- Disable automatic linking to Boost libraries.
@@ -30,6 +31,7 @@ for _, cc in toolsets('cc.*') do
                 'MaskFilter.cpp',
                 'narrow.cpp',
                 'PathFilter.cpp',
+                'PersistError.cpp',
                 'Reference.cpp',
                 'Resolver.cpp',
                 'strnlen.cpp',

@@ -12,18 +12,16 @@
 
 using namespace persist;
 
-TextReader::TextReader( error::ErrorPolicy& error_policy )
-: Reader<TextReader>( error_policy )
-, error_policy_( error_policy )
+TextReader::TextReader()
+: Reader<TextReader>()
 , m_element()
 , m_state()
-, m_resolver( error_policy )
+, m_resolver()
 {
 }
 
 TextReader::TextReader( const TextReader& reader )
 : Reader<TextReader>( reader )
-, error_policy_( reader.error_policy_ )
 , m_element()
 , m_state()
 , m_resolver( reader.m_resolver )
@@ -71,11 +69,6 @@ const void* TextReader::get_address() const
         }
     }
     return address;
-}
-
-error::ErrorPolicy& TextReader::error_policy() const
-{
-    return error_policy_;
 }
 
 Mode TextReader::get_mode() const

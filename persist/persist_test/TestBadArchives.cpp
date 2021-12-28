@@ -4,11 +4,10 @@
 //
 
 #include <UnitTest++/UnitTest++.h>
-#include <sweet/persist/persist.hpp>
-#include <sweet/persist/vector.hpp>
-#include <sweet/persist/XmlWriter.ipp>
-#include <sweet/persist/XmlReader.ipp>
-#include <error/NullErrorPolicy.hpp>
+#include <persist/persist.hpp>
+#include <persist/vector.hpp>
+#include <persist/XmlWriter.ipp>
+#include <persist/XmlReader.ipp>
 #include "Item.hpp"
 
 using namespace persist;
@@ -51,39 +50,79 @@ SUITE( TestBadArchives )
     {
         Model read_model;
         read_model.clear();
-        error::NullErrorPolicy error_policy;
-        XmlReader xml_reader( error_policy );
-        xml_reader.read( "TestXmlBadArchive1.xml", "model", read_model );
-        CHECK_EQUAL( 1, error_policy.errors() );
+        XmlReader xml_reader;
+        try
+        {
+            xml_reader.read( "TestXmlBadArchive1.xml", "model", read_model );
+            CHECK( false );
+        }
+        catch ( const PersistError& /*error*/ )
+        {
+            CHECK( true );
+        }
+        catch ( ... )
+        {
+            CHECK( false );
+        }
     }
 
     TEST( TestXmlBadArchive2 )
     {
         Model read_model;
         read_model.clear();
-        error::NullErrorPolicy error_policy;
-        XmlReader xml_reader( error_policy );
-        xml_reader.read( "TestXmlBadArchive2.xml", "model", read_model );
-        CHECK_EQUAL( 1, error_policy.errors() );
+        XmlReader xml_reader;
+        try
+        {
+            xml_reader.read( "TestXmlBadArchive2.xml", "model", read_model );            
+            CHECK( false );
+        }
+        catch ( const PersistError& /*error*/ )
+        {
+            CHECK( true );
+        }
+        catch ( ... )
+        {
+            CHECK( false );
+        }
     }
 
     TEST( TestXmlBadArchive3 )
     {
         Model read_model;
         read_model.clear();
-        error::NullErrorPolicy error_policy;
-        XmlReader xml_reader( error_policy );
-        xml_reader.read( "TestXmlBadArchive3.xml", "model", read_model );
-        CHECK_EQUAL( 1, error_policy.errors() );
+        XmlReader xml_reader;
+        try
+        {
+            xml_reader.read( "TestXmlBadArchive3.xml", "model", read_model );
+            CHECK( false );
+        }
+        catch ( const PersistError& /*error*/ )
+        {
+            CHECK( true );
+        }
+        catch ( ... )
+        {
+            CHECK( false );
+        }
     }
 
     TEST( TestXmlBadArchive4 )
     {
         Model read_model;
         read_model.clear();
-        error::NullErrorPolicy error_policy;
-        XmlReader xml_reader( error_policy );
-        xml_reader.read( "TestXmlBadArchive4.xml", "model", read_model );
-        CHECK_EQUAL( 1, error_policy.errors() );
+        XmlReader xml_reader;
+        try
+        {
+            xml_reader.read( "TestXmlBadArchive4.xml", "model", read_model );
+            CHECK( false );
+        }
+        catch ( const PersistError& /*error*/ )
+        {
+            CHECK( true );
+        }
+        catch ( ... )
+        {
+            CHECK( false );
+        }
     }
 }

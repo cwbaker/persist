@@ -11,15 +11,13 @@
 
 using namespace persist;
 
-JsonWriter::JsonWriter( error::ErrorPolicy& error_policy )
-: TextWriter( error_policy )
-, error_policy_( error_policy )
+JsonWriter::JsonWriter()
+: TextWriter()
 {
 }
 
 JsonWriter::JsonWriter( const TextWriter& writer )
 : TextWriter( writer )
-, error_policy_( writer.error_policy() )
 {
 }
 

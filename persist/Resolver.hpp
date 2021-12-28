@@ -10,13 +10,6 @@
 #include <stack>
 #include <ctime>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -92,7 +85,6 @@ private:
         }
     };
 
-    error::ErrorPolicy& error_policy_; ///< The ErrorPolicy that this Resolver reports errors to.
     Object m_object; ///< The root Object.
     std::stack<State> m_state; ///< The state.
     std::stack<Object*> m_current_object; ///< The current Object as the Object tree is being built up in the reading pass.
@@ -100,7 +92,7 @@ private:
     std::multiset<Reference> m_references; ///< The references.
 
 public:
-    Resolver( error::ErrorPolicy& error_policy );
+    Resolver();
     Resolver( const Resolver& resolver );
 
     void track( void* raw_ptr, void* smart_ptr );
@@ -120,9 +112,9 @@ public:
     void type( const std::string& type );
     void flag( int value );
 
-    template <class Type> void process( int version, Type& object, error::ErrorPolicy& error_policy );
-    template <class Type> void process( int version, const char* child_name, Type& container, error::ErrorPolicy& error_policy );
-    template <class Type> void process( int version, const char* child_name, Type& values, size_t length, error::ErrorPolicy& error_policy );
+    template <class Type> void process( int version, Type& object );
+    template <class Type> void process( int version, const char* child_name, Type& container );
+    template <class Type> void process( int version, const char* child_name, Type& values, size_t length );
 
     void value( const char* name, bool& value );
     void value( const char* name, char& value );
