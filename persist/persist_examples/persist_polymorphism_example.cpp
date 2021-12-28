@@ -1,7 +1,7 @@
 
 #include <string>
-#include <sweet/persist/persist.hpp>
-#include <sweet/persist/vector.hpp>
+#include <persist/persist.hpp>
+#include <persist/vector.hpp>
 
 using namespace std;
 using namespace persist;

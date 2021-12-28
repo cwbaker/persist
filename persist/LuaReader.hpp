@@ -2,13 +2,6 @@
 
 #include "TextReader.hpp"
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -19,10 +12,8 @@ class Element;
 */
 class LuaReader : public TextReader
 {
-    error::ErrorPolicy& error_policy_;
-    
 public:
-    LuaReader( error::ErrorPolicy& error_policy );
+    LuaReader();
     LuaReader( const TextReader& reader );
 
     template <class Char, class Type> void read( const Char* filename, const char* name, Type& object );

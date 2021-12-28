@@ -3,13 +3,6 @@
 #include "TextWriter.hpp"
 #include <iostream>
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -18,10 +11,8 @@ namespace persist
 */
 class XmlWriter : public TextWriter
 {
-    error::ErrorPolicy& error_policy_;
-
 public:
-    XmlWriter( error::ErrorPolicy& error_policy );
+    XmlWriter();
     XmlWriter( const TextWriter& writer );
 
     template <class Char, class Type> void write( const Char* filename, const char* name, Type& value );

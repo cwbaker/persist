@@ -4,13 +4,6 @@
 #include "Resolver.hpp"
 #include "types.hpp"
 
-namespace error
-{
-
-class ErrorPolicy;
-
-}
-
 namespace persist
 {
 
@@ -35,14 +28,13 @@ class BinaryReader : public Reader<BinaryReader>
         }
     };
 
-    error::ErrorPolicy& error_policy_;
     std::stack<State> m_state; ///< The stack of States.
     std::istream* m_istream; ///< The input stream being read from.
     std::string m_type; ///< The string that uniquely identifies the type of the object being read in (if any).
     Resolver m_resolver; ///< The Resolver that is used to resolve references after an archive has been read.
  
     public:
-        BinaryReader( error::ErrorPolicy& error_policy );
+        BinaryReader();
         BinaryReader( const BinaryReader& reader );
 
         void track( void* raw_ptr, void* smart_ptr );

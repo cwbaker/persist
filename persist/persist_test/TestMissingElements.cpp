@@ -4,14 +4,14 @@
 //
 
 #include <UnitTest++/UnitTest++.h>
-#include <sweet/persist/persist.hpp>
-#include <sweet/persist/types.hpp>
-#include <sweet/persist/XmlWriter.ipp>
-#include <sweet/persist/XmlReader.ipp>
-#include <sweet/persist/JsonWriter.ipp>
-#include <sweet/persist/JsonReader.ipp>
-#include <sweet/persist/LuaWriter.ipp>
-#include <sweet/persist/LuaReader.ipp>
+#include <persist/persist.hpp>
+#include <persist/types.hpp>
+#include <persist/XmlWriter.ipp>
+#include <persist/XmlReader.ipp>
+#include <persist/JsonWriter.ipp>
+#include <persist/JsonReader.ipp>
+#include <persist/LuaWriter.ipp>
+#include <persist/LuaReader.ipp>
 #include "TestBody.hpp"
 
 using namespace persist;

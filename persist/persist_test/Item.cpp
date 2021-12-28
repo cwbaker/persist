@@ -3,7 +3,7 @@
 // Copyright (c) Charles Baker.  All rights reserved.
 //
 
-#include <sweet/persist/persist.hpp>
+#include <persist/persist.hpp>
 #include <persist/assert.hpp>
 #include "Item.hpp"
 

@@ -7,26 +7,24 @@
 
 #include "Writer.hpp"
 #include "WriterType.ipp"
+#include "PersistError.hpp"
 #include "assert.hpp"
 #include "functions.ipp"
-#include <error/ErrorPolicy.hpp>
 
 namespace persist
 {
 
 template <class DerivedArchive>
-persist::Writer<DerivedArchive>::Writer( error::ErrorPolicy& error_policy )
+persist::Writer<DerivedArchive>::Writer()
 : Archive( ARCHIVE_WRITER )
-, error_policy_( error_policy )
 , m_types()
 , m_tracked_addresses()
 {
 }
 
 template <class DerivedArchive>
-persist::Writer<DerivedArchive>::Writer( ArchiveType type, error::ErrorPolicy& error_policy )
+persist::Writer<DerivedArchive>::Writer( ArchiveType type )
 : Archive( type )
-, error_policy_( error_policy )
 , m_types()
 , m_tracked_addresses()
 {
@@ -36,7 +34,6 @@ persist::Writer<DerivedArchive>::Writer( ArchiveType type, error::ErrorPolicy& e
 template <class DerivedArchive>
 Writer<DerivedArchive>::Writer( const Writer<DerivedArchive>& writer )
 : Archive( writer )
-, error_policy_( writer.error_policy_ )
 , m_types( writer.m_types )
 , m_tracked_addresses( writer.m_tracked_addresses )
 {
@@ -69,8 +66,11 @@ void Writer<DerivedArchive>::persist( const std::type_info& type, DerivedArchive
     
     if ( object )
     {
-        typename set<WriterType<DerivedArchive> >::iterator i = m_types.find( WriterType<DerivedArchive>(type, std::string(), PERSIST_NORMAL, 0) );
-        error_policy_.error( i == m_types.end(), "The type '%s' is not declared", type.name() );
+        typename set<WriterType<DerivedArchive>>::iterator i = m_types.find( WriterType<DerivedArchive>(type, std::string(), PERSIST_NORMAL, 0) );
+        if ( i == m_types.end() )
+        {
+            throw PersistError( "The type '%s' is not declared", type.name() );
+        }
         if ( i != m_types.end() )
         {
             if ( i->is_polymorphic() )
@@ -107,7 +107,10 @@ template <class Type>
 void Writer<DerivedArchive>::declare( const char* name, int flags )
 {
     typename std::set<WriterType<DerivedArchive> >::iterator i = m_types.find( WriterType<DerivedArchive>(typeid(Type), std::string(), PERSIST_NORMAL, 0) );
-    error_policy_.error( i != m_types.end(), "The type '%s' is already declared", typeid(Type).name() );
+    if ( i != m_types.end() )
+    {
+        throw PersistError( "The type '%s' is already declared", typeid(Type).name() );
+    }
     if ( i == m_types.end() )
     {
         m_types.insert( WriterType<DerivedArchive>(typeid(Type), name, flags, &persist::persist<DerivedArchive, Type>) );
