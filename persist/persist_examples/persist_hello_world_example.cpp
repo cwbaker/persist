@@ -1,5 +1,7 @@
 
 #include <persist/persist.hpp>
+#include <persist/XmlWriter.ipp>
+#include <persist/XmlReader.ipp>
 #include <string>
 
 using std::string;

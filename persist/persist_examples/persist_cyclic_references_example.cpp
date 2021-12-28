@@ -1,6 +1,8 @@
 
 #include <persist/persist.hpp>
 #include <persist/vector.hpp>
+#include <persist/XmlWriter.ipp>
+#include <persist/XmlReader.ipp>
 #include <string>
 #include <vector>
 

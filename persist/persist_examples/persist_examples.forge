@@ -1,13 +1,10 @@
 
-for _, toolset in toolsets( 'cc_macos_.*', 'cc_windows_.*' ) do
-    toolset:all {
-        toolset:Executable "${bin}/persist_examples" {
+for _, cc in toolsets( 'cc_linux.*', 'cc_macos.*', 'cc_windows.*' ) do
+    cc:all {
+        cc:Executable "${bin}/persist_examples" {
             '${lib}/persist_${platform}_${architecture}';
-            '${lib}/path_${platform}_${architecture}';
-            '${lib}/error_${platform}_${architecture}';
-            '${lib}/assert_${platform}_${architecture}';
 
-            toolset:Cxx '${obj}/%1' {
+            cc:Cxx '${obj}/%1' {
                 "main.cpp",
                 "persist_cyclic_references_example.cpp",
                 "persist_filters_example.cpp",

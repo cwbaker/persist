@@ -1,6 +1,11 @@
 
 #include <persist/persist.hpp>
 #include <persist/vector.hpp>
+#include <persist/MaskFilter.hpp>
+#include <persist/PathFilter.hpp>
+#include <persist/EnumFilter.hpp>
+#include <persist/JsonWriter.ipp>
+#include <persist/JsonReader.ipp>
 #include <string>
 #include <vector>
 

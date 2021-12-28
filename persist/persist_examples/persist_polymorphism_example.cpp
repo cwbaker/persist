@@ -1,6 +1,7 @@
 
 #include <string>
-#include <persist/persist.hpp>
+#include <persist/JsonWriter.ipp>
+#include <persist/JsonReader.ipp>
 #include <persist/vector.hpp>
 
 using namespace std;
@@ -116,9 +117,9 @@ struct Polymorphism
 
 template <class Archive> void declare( Archive& archive )
 {
-    archive.declare<Object>( "Object", PERSIST_POLYMORPHIC );
-    archive.declare<LeftObject>( "LeftObject", PERSIST_POLYMORPHIC );
-    archive.declare<RightObject>( "RightObject", PERSIST_POLYMORPHIC );
+    archive.template declare<Object>( "Object", PERSIST_POLYMORPHIC );
+    archive.template declare<LeftObject>( "LeftObject", PERSIST_POLYMORPHIC );
+    archive.template declare<RightObject>( "RightObject", PERSIST_POLYMORPHIC );
 }
 
 void persist_polymorphism_example()

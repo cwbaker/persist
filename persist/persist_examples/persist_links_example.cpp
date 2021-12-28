@@ -1,5 +1,10 @@
 
 #include <persist/persist.hpp>
+#include <persist/PathFilter.hpp>
+#include <persist/ObjectGuard.hpp>
+#include <persist/JsonWriter.ipp>
+#include <persist/JsonReader.ipp>
+#include <filesystem>
 #include <string>
 #include <map>
 
@@ -12,12 +17,10 @@ class TextureCache;
 class Texture
 {
     string filename_;
-    TextureCache* manager_;
 
     public:
-        Texture( const string& filename, TextureCache* manager )
-        : filename_( filename ),
-          manager_( manager )
+        Texture( const string& filename )
+        : filename_( filename )
         {
         }
         
@@ -47,7 +50,7 @@ class TextureCache
             }
             else
             {
-                texture = new Texture( filename, this );
+                texture = new Texture( filename );
                 textures_.insert( make_pair(filename, texture) );
             }
             return texture;
@@ -94,7 +97,7 @@ void load( Archive& archive, int mode, const char* name, Texture*& texture )
 }
 
 template <class Archive>
-void resolve( Archive& archive, int mode, Texture*& texture )
+void resolve( Archive& archive, int mode, Texture*& /*texture*/ )
 {
     ObjectGuard<Archive> guard( archive, NULL, NULL, mode );
 }
@@ -123,7 +126,9 @@ class Model
 
         void create()
         {
-            string cwd = narrow(sweet::path::current_working_directory().string());
+            // string cwd = narrow(sweet::path::current_working_directory().string());
+            using std::filesystem::current_path;
+            string cwd = current_path().string();
             texture_ = texture_cache_.texture( cwd + "/textures/texture.tga" );
             other_texture_ = texture_cache_.texture( cwd + "/textures/other_texture.tga" );
         }

@@ -1,5 +1,5 @@
 
--- buildfile 'persist_examples/persist_examples.forge';
+buildfile 'persist_examples/persist_examples.forge';
 buildfile 'persist_test/persist_test.forge';
 
 for _, cc in toolsets('cc.*') do
