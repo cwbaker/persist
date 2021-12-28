@@ -3,90 +3,109 @@
 
 ## Overview
 
-Persist is a C++ library that serializes data to and from streams in XML, JSON, Lua, and binary formats.  It compiles with Microsoft Visual Studio 2008 (MSVC 9.0), MinGW (GCC 4.6.2), and Xcode (LLVM-GCC 4.2.1).
+Persist is a C++ library that serializes data to and from streams in XML, JSON, and binary formats.
 
 Features:
 
-- Serialization of basic types including narrow and wide character strings.
-- Conversion of enumerations and bit masks between their integer values and text. 
-- Conversion between absolute and relative paths.
+- Enumeration conversion between values and text. 
+- Bitmask conversion between values and text. 
+- Absolute and relative path conversions.
 - Polymorphism.
-- Serialization of arbitrary objects via intrusive or non intrusive mechanisms.
 - Multiple and possibly cyclical references to objects.
-- The STL containers vector, deque, list, set, multiset, map, and multimap.
-- The smart pointers auto_ptr, scoped_ptr, intrusive_ptr, shared_ptr, and weak_ptr.
-- Backwards compatibility through versioning.
+- Containers `vector`, `list`, `set`, `multiset`, `map`, `multimap`.
+- Smart pointers `unique_ptr`, `shared_ptr`, `weak_ptr`.
+- Versioned backwards compatibility.
 - UTF-8 encoded XML archives.
 - JSON archives.
-- Lua archives.
 - Binary archives.
 
 Anti features:
 
-- The library uses templates so has longer compile times and larger binaries.
 - Multiple inheritance is not supported.
 
 ### Boost Serialization vs Persist
 
-The Boost Serialization Library is written by Robert Ramey.  Documentation is available at http://www.boost.org/libs/serialization/doc/index.html[http://www.boost.org/libs/serialization/doc/index.html].
+NOTE: This section was written many years ago when Persist was a new library -- it might be quite outdated wrt. Boost Serialization features.
 
-The main difference between Boost Serialization and Persist is the way that they handle shared data.  Boost Serialization automatically tracks pointers to shared data and writes out objects by value the first time they are encountered and then by reference for any further occurences.  Persist allows the application to specify when an object is written out by reference and when it is written out by value.  This is a deliberate design decision to simplify the implementation and to allow control of where data shows up in an archive - in my opinion this makes them easier to transform using XSLT and easier to read.  The cost of doing it this way is that the application is then responsible for making sure that all referenced objects are written to an archive and that objects aren't written out by value more than once.
+The main difference between [Boost Serialization](https://www.boost.org/doc/libs/1_76_0/libs/serialization/doc/index.html) and Persist is the way that they handle shared data.  Boost Serialization automatically tracks pointers to shared data and writes out objects by value the first time they are encountered and then by reference for any further occurences.  Persist allows the application to specify when an object is written out by reference and when it is written out by value.  This is a deliberate design decision to simplify the implementation and to allow control of where data shows up in an archive - in my opinion this makes them easier to transform using XSLT and easier to read.  The cost of doing it this way is that the application is then responsible for making sure that all referenced objects are written to an archive and that objects aren't written out by value more than once.
 
-Persist supports `weak_ptr` and `intrusive_ptr` while Boost Serialization does not.  Support for `shared_ptr` in Persist does not depend on their
-implementation as it does in Boost Serialization.  Persist supports 
+Persist supports `shared_ptr` and `weak_ptr` without depending on their implementation as it does in Boost Serialization.  Persist supports 
 conversion of enumerations and bit masks to useful text values for text based 
-archives.  Persist also supports the conversion of paths - allowing 
-absolute paths to be converted to relative paths when persisted in an archive 
-and back to absolute paths when the archive is read back in.
+archives.  Persist also supports the conversion of paths - converting 
+absolute paths to relative paths when persisted in an archive and back to absolute paths when the archive is read back in.
 
-Boost Serialization handles multiple inheritance, classes that contain reference member variables, can work without RTTI, is far more portable, supports `boost::optional` and `boost::variant`, and has been reviewed and tested extensively by the Boost community.
+Boost Serialization handles multiple inheritance, classes that contain reference member variables, works without RTTI, is far more portable, supports `boost::optional` and `boost::variant`, and has been reviewed and tested extensively by the Boost community.
 
-In summary Boost Serialization will be better if you don't need control over where your data appears when written to an XML archive, you don't need your enumerations and bit masks converted to text, you don't need relative paths in your archives, or you don't want the responsibility of determining which objects to write by value and which to write out by reference.
+In summary Boost Serialization is better if you don't need control over where your data appears when written to XML or JSON archives, you don't need your enumerations and bit masks converted to text, you don't need relative paths in your archives, or you don't want the responsibility of determining whether to write an object by value or by reference.
 
 ### libs11n vs Persist
 
-The libs11n Library is written by Stephan Beal.  Documentation is available at
-http://s11n.net/[http://s11n.net/].
+NOTE: This section was written many years ago when Persist was a new library -- it might be quite outdated wrt. libs11n features.
 
-The libs11n Library has excellent documentation and supports a wide variety of data formats including persistence to MySQL and SQLite databases.  However it doesn't support wide characters, binary archives, or use as a static library.
+The [libs11n](http://s11n.net/s11n/) library has excellent documentation and supports a wide variety of data formats including persistence to MySQL and SQLite databases.  However it doesn't support wide characters, binary archives, or use as a static library.
 
 In summary the libs11n implementation will probably be better for you if you want to support serialization to a wide variety of data formats or SQL databases.  On the other hand if you need to support wide characters, binary
 archives, or don't like dynamic libraries then you might prefer Boost Serialization or Persist.
 
 ## Installation
 
-Persist is built and installed by downloading the latest version from
-http://www.sweetsoftware.co.nz/, extracting the archive onto your computer, 
-and then running "`build.bat`" (on Windows) or "`sh ./build.sh`" (on MacOSX)
-from the top level directory.  This builds all variants and a Visual Studio 
-solution or Xcode project to browse through the source.
+Build Persist using [Forge](https://www.github.com/cwbaker/forge#forge) and a C++ compiler (XCode, Visual C++, GCC, or Clang depending on operating system).
 
-You'll need to add the top level directory (e.g. "`c:\sweet\sweet_persist`")
-and the library directory (e.g. "`c:\sweet\sweet_persist\lib`") to your
-compiler's header and library search paths respectively.
+**Linux:**
 
-If you want Persist built to another location or with different variants
-and/or settings then you'll need to edit the settings in `sweet/build.lua` and
-rebuild.
+From a Bash shell with GCC and [Forge](https://github.com/cwbaker/forge#forge) installed and available in the path:
+
+~~~sh
+git clone git@github.com:cwbaker/persist.git persist
+cd persist
+git submodule update --init
+forge variant=release
+./release/bin/persist_examples
+~~~
+
+**macOS:**
+
+From a Bash shell with XCode and [Forge](https://github.com/cwbaker/forge#forge) installed and available in the path:
+
+~~~bash
+git clone git@github.com:cwbaker/persist.git persist
+cd persist
+git submodule update --init
+forge variant=release
+./release/bin/persist_examples
+~~~
+
+**Windows:**
+
+From a Visual C++ x64 Native Tools command prompt with [Forge](https://github.com/cwbaker/forge#forge) installed and available in the path:
+
+~~~cmd
+git clone git@github.com:cwbaker/persist.git persist
+cd persist
+git submodule update --init
+forge variant=release
+.\release\bin\persist_examples.exe
+~~~
+
+Linking with external code will require you to add the top level directory (e.g. "`...\persist`") and the per-variant library directory (e.g. "`...\perist\release\lib`") to your compiler's header and library search paths respectively.
 
 ## Usage
 
-Persist serializes arbitrary data to and from an iostream.  Typically this is a file but can be a buffer in memory or any more complex combination supported by iostreams.
+Persist serializes arbitrary data to and from an `iostream`.  Typically this is a file but can be a buffer in memory or any more complex combination supported by an `iostream`.
 
-The library provides writer and reader objects to serialize data.  Different types of writers and readers are used serialize archives in XML (`XmlWriter`, `XmlReader`), JSON (`JsonWriter`, `JsonReader`), Lua (`LuaWriter`, `LuaReader`), and binary (`BinaryWriter`, `BinaryReader`) formats.
+The library provides writer and reader objects to serialize data.  Different types of writers and readers are used serialize archives in XML (`XmlWriter`, `XmlReader`), JSON (`JsonWriter`, `JsonReader`), and binary (`BinaryWriter`, `BinaryReader`) formats.
 
 Data is serialized out by creating a writer and calling its `write()` method.  This recursively traverses the data model being serialized using function templates that describe the relationships in the data model.  Similarly data is read in by creating a reader and calling its `read()` method.  This reconstructs the data in memory using the same function templates.
 
 The function templates to traverse the data model are typically provided as `persist()` member function templates of the class being serialized.  This is the intrusive form.  It is the simplest form and most classes use it to serialize their data.
 
 ~~~c++
-template <class Archive> 
+template <class Archive>
 void persist( Archive& archive );
 ~~~
 
-The function templates can also be provided in a non-intrusive form using
-`save()`, `load()`, and `resolve()` functions overloaded on the the type being serialized if the class to be serialized is not able to be modified or if special case handling such as linking are required (see the links section
-below).  The simpler intrusive form is implemented using the non-intrusive form by having the default overload for the non-intrusive functions call the `persist()` member function template of the object being serialized.
+Overloaded function templates can be provided using
+`save()`, `load()`, and `resolve()`.  This is the non-intrusive form allowing serialization of classes that can't be extended or if special case handling such as linking are required (see links below).  The simpler intrusive form is implemented using the non-intrusive form by having the default overload for the non-intrusive functions call the `persist()` member function template of the object being serialized.
 
 ~~~c++
 template <class Archive, class Type> 
@@ -102,13 +121,42 @@ void resolve( Archive& archive, int mode, Type& object );
 For example the classic "Hello World!" using Persist:
 
 ~~~c++
-include::persist/persist_examples/persist_hello_world_example.cpp[]
+#include <persist/persist.hpp>
+#include <string>
+
+using std::string;
+using namespace persist;
+
+struct HelloWorld
+{
+    string message;
+    
+    template <class Archive> void persist( Archive& archive )
+    {
+        archive.enter( "HelloWorld", 1, *this );
+        archive.value( "message", message );
+    }
+};
+
+void persist_hello_world_example()
+{
+    HelloWorld hello_world;
+    hello_world.message = "Hello World!";
+    XmlWriter xml_writer;
+    xml_writer.write( "persist_hello_world_example.xml", "hello_world", hello_world );
+
+    hello_world.message.clear();    
+    XmlReader xml_reader;
+    xml_reader.read( "persist_hello_world_example.xml", "hello_world", hello_world );
+    assert( hello_world.message == "Hello World!" );
+}
 ~~~
 
 The example program produces the following output:
 
 ~~~xml
-include::persist/persist_examples/persist_hello_world_example.xml[]
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<hello_world format="HelloWorld" version="1" message="Hello World!" address="0x7ffeef4da718"/>
 ~~~
 
 ### Cyclic References
@@ -125,18 +173,112 @@ To serialize an object by reference instead of by value the application calls
 For example a simple network of people with cyclic references from each person to their friends:
 
 ~~~c++
-include::persist/persist_examples/persist_cyclic_references_example.cpp[]
+#include <persist/persist.hpp>
+#include <persist/vector.hpp>
+#include <persist/XmlWriter.ipp>
+#include <persist/XmlReader.ipp>
+#include <string>
+#include <vector>
+
+using std::vector;
+using std::string;
+using namespace persist;
+
+struct Person
+{
+    string name_;
+    vector<Person*> friends_;
+
+    Person()
+    : name_(),
+      friends_()
+    {
+    }
+
+    Person( const string& name )
+    : name_( name ),
+      friends_()
+    {
+    }
+
+    void add_friend( Person* person )
+    {
+        friends_.push_back( person );
+    }
+
+    template <class Archive> void persist( Archive& archive )
+    {
+        archive.value( "name", name_ );
+        archive.refer( "friends", "friend", friends_ );
+    }
+};
+
+void persist_cyclic_references_example()
+{
+    vector<Person> people;
+    people.push_back( Person("Alfred") );
+    people.push_back( Person("Ben") );
+    people.push_back( Person("Camilla") );
+    people.push_back( Person("Denise") );
+
+    Person& alfred = people[0];
+    Person& ben = people[1];
+    Person& camilla = people[2];
+    Person& denise = people[3];
+
+    alfred.add_friend( &ben );
+    alfred.add_friend( &camilla );
+    ben.add_friend( &alfred );
+    ben.add_friend( &denise );
+    camilla.add_friend( &alfred );
+    camilla.add_friend( &ben );
+    camilla.add_friend( &denise );
+    denise.add_friend( &camilla );
+    
+    XmlWriter xml_writer;
+    xml_writer.write( "persist_cyclic_references_example.xml", "people", "person", people );
+
+    people.clear();
+    XmlReader xml_reader;
+    xml_reader.read( "persist_cyclic_references_example.xml", "people", "person", people );
+}
 ~~~
 
 The example program produces the following output:
 
 ~~~xml
-include::persist/persist_examples/persist_cyclic_references_example.xml[]
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<people>
+    <person name="Alfred" address="0x7f9103405bd0">
+        <friends>
+            <friend address="0x7f9103405c00"/>
+            <friend address="0x7f9103405c30"/>
+        </friends>
+    </person>
+    <person name="Ben" address="0x7f9103405c00">
+        <friends>
+            <friend address="0x7f9103405bd0"/>
+            <friend address="0x7f9103405c60"/>
+        </friends>
+    </person>
+    <person name="Camilla" address="0x7f9103405c30">
+        <friends>
+            <friend address="0x7f9103405bd0"/>
+            <friend address="0x7f9103405c00"/>
+            <friend address="0x7f9103405c60"/>
+        </friends>
+    </person>
+    <person name="Denise" address="0x7f9103405c60">
+        <friends>
+            <friend address="0x7f9103405c30"/>
+        </friends>
+    </person>
+</people>
 ~~~
 
 ### Polymorphism
 
-Persist supports serializing polymorphic objects.  To do so polymorphic types must be declared with the reader or writer that is doing the serialization so that the "`persist()`" function of the correct type can be called when the reader or writer is passed a base class pointer to an object.
+Persist supports serializing polymorphic objects.  To do so polymorphic types must be declared with the reader or writer that is doing the serialization so that the `persist()` function of the correct type can be called when the reader or writer is passed a base class pointer to an object.
 
 Polymorphic types are declared with a reader or writer using the `declare()`
 function.  The `declare()` function is a function template that takes the true type as a template parameter and the name to use to uniquely identify the type when serialized.
@@ -146,17 +288,7 @@ template <class Type>
 void declare( const char* name, int flags );
 ~~~
 
-For example with a left and right object inheriting from a base object.  Contrived but surely sno worse than using animals:
-
-~~~c++
-include::persist/persist_examples/persist_polymorphism_example.cpp[]
-~~~
-
-The example program produces the following output:
-
-~~~json
-include::persist/persist_examples/persist_polymorphism_example.json[]
-~~~
+See [persist_polymorphism_example.cpp](https://github.com/cwbaker/persist/blob/main/persist/persist_examples/persist_polymorphism_example.cpp) and [persist_polymorphism_example.json](https://github.com/cwbaker/persist/blob/main/persist/persist_examples/persist_polymorphism_example.json).
 
 ### Context
 
@@ -179,15 +311,7 @@ Path filters convert between an absolute path in the application and a relative 
 
 For example a contacts database that uses a mask filter to store the categories of a contact and an enum filter to store the status of a contact:
 
-~~~c++
-include::persist/persist_examples/persist_filters_example.cpp[]
-~~~
-
-The example program produces the following output:
-
-~~~json
-include::persist/persist_examples/persist_filters_example.json[]
-~~~
+See [persist_filters_example.cpp](https://github.com/cwbaker/persist/blob/main/persist/persist_examples/persist_filters_example.cpp) and [persist_filters_example.json](https://github.com/cwbaker/persist/blob/main/persist/persist_examples/persist_filters_example.json).
 
 ### Links
 
@@ -197,19 +321,11 @@ For example during the development of a game using textures a serialized archive
 
 Non-intrusive serialization functions `save()`, `load()`, and `resolve()` are written to serialize the textures.  The loading function retrieves a `TextureCache` to retrieve a texture from using the archive's context function.  Path filters are used to convert between the absolute paths used to refer to textures in memory and paths relative to the serialized archive in the archive.
 
-~~~c++
-include::persist/persist_examples/persist_links_example.cpp[]
-~~~
-
-The example program generates the following output:
-
-~~~json
-include::persist/persist_examples/persist_links_example.json[]
-~~~
+See [persist_links_example.cpp](https://github.com/cwbaker/persist/blob/main/persist/persist_examples/persist_links_example.cpp) and [persist_links_example.json](https://github.com/cwbaker/persist/blob/main/persist/persist_examples/persist_links_example.json).
 
 ### Standard Template Library and Boost Support
 
-Additional headers are provided for serializing the standard template library containers and Boost library smart pointers.  The additional headers are given the same base name as the STL or Boost header that is included to use the actual type (e.g. include `<sweet/persist/list.hpp>` to persist STL lists or `<sweet/persist/shared_ptr.hpp>` to persist Boost shared pointers).
+Additional headers are provided for serializing containers and smart pointers.  The additional headers are given the same base name as the STL header that is included to use the actual type (e.g. include `<persist/list.hpp>` to persist lists or `<persist/shared_ptr.hpp>` to persist shared pointers).
 
 Additional headers only need to be included when their particular type needs to be persisted.  If an additional header is left out then the compiler will generate many errors as it tries to match all of the overloaded save and load function templates.
 
