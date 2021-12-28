@@ -6,6 +6,7 @@
 #pragma once
 
 #include "JsonWriter.hpp"
+#include "TextWriter.ipp"
 #include "basic_types.ipp"
 #include "arrays.ipp"
 #include "objects.ipp"

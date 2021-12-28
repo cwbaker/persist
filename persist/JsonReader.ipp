@@ -6,6 +6,7 @@
 #pragma once
 
 #include "JsonReader.hpp"
+#include "TextReader.ipp"
 #include "basic_types.ipp"
 #include "arrays.ipp"
 #include "objects.ipp"
