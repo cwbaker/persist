@@ -25,27 +25,13 @@ Anti features:
 
 ### Boost Serialization vs Persist
 
-NOTE: This section was written many years ago when Persist was a new library -- it might be quite outdated wrt. Boost Serialization features.
-
 The main difference between [Boost Serialization](https://www.boost.org/doc/libs/1_76_0/libs/serialization/doc/index.html) and Persist is the way that they handle shared data.  Boost Serialization automatically tracks pointers to shared data and writes out objects by value the first time they are encountered and then by reference for any further occurences.  Persist allows the application to specify when an object is written out by reference and when it is written out by value.  This is a deliberate design decision to simplify the implementation and to allow control of where data shows up in an archive - in my opinion this makes them easier to transform using XSLT and easier to read.  The cost of doing it this way is that the application is then responsible for making sure that all referenced objects are written to an archive and that objects aren't written out by value more than once.
 
-Persist supports `shared_ptr` and `weak_ptr` without depending on their implementation as it does in Boost Serialization.  Persist supports 
-conversion of enumerations and bit masks to useful text values for text based 
-archives.  Persist also supports the conversion of paths - converting 
-absolute paths to relative paths when persisted in an archive and back to absolute paths when the archive is read back in.
+Persist supports conversion of enumerations and bit masks to useful text values for text based archives.  Persist also supports the conversion of paths - converting absolute paths to relative paths when persisted in an archive and back to absolute paths when the archive is read back in.
 
-Boost Serialization handles multiple inheritance, classes that contain reference member variables, works without RTTI, is far more portable, supports `boost::optional` and `boost::variant`, and has been reviewed and tested extensively by the Boost community.
+Boost Serialization handles multiple inheritance, classes that contain reference member variables, works without RTTI, is far more portable, supports `std::optional` and `std::variant`, and has been reviewed and tested extensively by the Boost community.
 
 In summary Boost Serialization is better if you don't need control over where your data appears when written to XML or JSON archives, you don't need your enumerations and bit masks converted to text, you don't need relative paths in your archives, or you don't want the responsibility of determining whether to write an object by value or by reference.
-
-### libs11n vs Persist
-
-NOTE: This section was written many years ago when Persist was a new library -- it might be quite outdated wrt. libs11n features.
-
-The [libs11n](http://s11n.net/s11n/) library has excellent documentation and supports a wide variety of data formats including persistence to MySQL and SQLite databases.  However it doesn't support wide characters, binary archives, or use as a static library.
-
-In summary the libs11n implementation will probably be better for you if you want to support serialization to a wide variety of data formats or SQL databases.  On the other hand if you need to support wide characters, binary
-archives, or don't like dynamic libraries then you might prefer Boost Serialization or Persist.
 
 ## Installation
 
