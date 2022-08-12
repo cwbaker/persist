@@ -2,18 +2,18 @@
 buildfile 'persist_examples/persist_examples.forge';
 buildfile 'persist_test/persist_test.forge';
 
-for _, cc in toolsets('cc.*') do
+for _, cc in toolsets('^cc.*') do
     local cc = cc:inherit {
         warning_level = 0;  
+        defines = { 
+            'BOOST_ALL_NO_LIB'; -- Disable automatic linking to Boost libraries.
+        };
     };
 
     cc:all {
         cc:StaticLibrary '${lib}/persist_${platform}_${architecture}' {
             '${lib}/lalr_${platform}_${architecture}';
             cc:Cxx '${obj}/%1' {
-                defines = { 
-                    'BOOST_ALL_NO_LIB'; -- Disable automatic linking to Boost libraries.
-                };
                 'Address.cpp',
                 'Archive.cpp',
                 'Attribute.cpp',        

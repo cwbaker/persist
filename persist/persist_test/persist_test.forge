@@ -1,6 +1,6 @@
 
 for _, cc in toolsets( '^cc_linux.*', '^cc_macos_.*', '^cc_windows_.*' ) do
-    if cc.settings.unit_tests_enabled then
+    if cc.unit_tests_enabled then
         cc:StaticLibrary '${lib}/persist_test_${platform}_${architecture}' {
             whole_archive = true;
 
@@ -30,7 +30,7 @@ for _, cc in toolsets( '^cc_linux.*', '^cc_macos_.*', '^cc_windows_.*' ) do
             };
         };
 
-        if cc.settings.persist_test_enabled then
+        if cc.persist_test_enabled then
             cc:all {
                 cc:Executable '${bin}/persist_test' {
                     '${lib}/persist_test_${platform}_${architecture}';

@@ -8,8 +8,9 @@ package.path = table.concat( paths, ";" );
 
 variant = lower( variant or 'debug' );
 
-local cc = require 'forge.cc' {
-    identifier = 'cc_${platform}_${architecture}';
+local forge = require( 'forge' ):load( variant );
+
+local cc = forge.Toolset 'cc_${platform}_${architecture}' {
     platform = operating_system();
     bin = root( ('%s/bin'):format(variant) );
     lib = root( ('%s/lib'):format(variant) );
@@ -54,12 +55,13 @@ local cc = require 'forge.cc' {
 };
 
 if variant == 'debug' then
-    table.insert( cc.settings.defines, '_DEBUG' );
+    table.insert( cc.defines, '_DEBUG' );
 elseif variant == 'shipping' then
-    table.insert( cc.settings.defines, 'NDEBUG' );
+    table.insert( cc.defines, 'NDEBUG' );
 end
 
-cc:install( require('forge.lalr') );
+cc:install( 'forge.cc' );
+cc:install( 'forge.lalr' );
 
 cc:all {
     'persist/persist_examples/all';

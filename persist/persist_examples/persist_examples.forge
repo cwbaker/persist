@@ -1,5 +1,5 @@
 
-for _, cc in toolsets( 'cc_linux.*', 'cc_macos.*', 'cc_windows.*' ) do
+for _, cc in toolsets( '^cc_linux.*', '^cc_macos.*', '^cc_windows.*' ) do
     cc:all {
         cc:Executable "${bin}/persist_examples" {
             '${lib}/persist_${platform}_${architecture}';
