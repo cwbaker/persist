@@ -1,7 +1,7 @@
 
 # Persist
 
-## Overview
+![Build](https://github.com/cwbaker/forge/workflows/Build/badge.svg)
 
 Persist is a C++ library that serializes data to and from streams in XML, JSON, and binary formats.
 
